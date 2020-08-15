@@ -6,20 +6,24 @@
 #define GPX_SOURCE_SIZE 64
 #define GPX_ARRAY_SIZE 16
 
-#ERROR_DATA 0
-#ERROR_MEMORY ERROR_DATA	//code for memory allocation
+#define CORRECT_EXECUTE 1
+#define ERROR_DATA 0
+#define ERROR_MEMORY ERROR_DATA			//code for memory allocation
+#define ERROR_NULL_POINTER ERROR_DATA	//code for null pointer detection
 
 
-typedef struct gpxParamtersStruct
+
+/** Structers definitons */
+typedef struct 
 {
 	char gpxEncoding[GPX_PARAM_SIZE];
 	char gpxVer[GPX_PARAM_SIZE];
 	char gpxSource[GPX_SOURCE_SIZE];
 	
 	int readLines;
-};
+} gpxParamtersStruct;
 
-typedef struct gpxReadStruct
+typedef struct 
 {
 	char gpxLatitude[GPX_ARRAY_SIZE];
 	char gpxLongitude[GPX_ARRAY_SIZE];
@@ -27,8 +31,10 @@ typedef struct gpxReadStruct
 	char gpxData[GPX_ARRAY_SIZE];
 	char gpxTime[GPX_ARRAY_SIZE];
 
-};
+} gpxReadStruct;
 
+/** Function prototypes */
+int valiateMemoryPointer(void *pointer);
 
 
 
@@ -52,24 +58,15 @@ int int main(int argc, char const *argv[])
 	psGpxRead = malloc(sizeof(sGpxRead));
 
 	/* Check memory allocations */
-	if (psGpxParameters == NULL)
+	if (!((valiateMemoryPointer((void *) psGpxParameters))))
 	{
-		fprintf(stderr, "Error. Didn't allocate memory for parameters's structure\n");
-		return ERROR_MEMORY;
+		fprintf(stderr, "ERROR_NULL_POINTER: psGpxParameters\n");
+		return ERROR_NULL_POINTER;
 	}
-	else 
-	{
-		fprintf(stderr, "Created .gpx paramters's structure.\n" );
-	}
-
-	if (psGpxRead == NULL)
-	{
-		fprintf(stderr, "Error. Didn't allocate memory for read's structure\n");
-		return ERROR_MEMORY;
-	}
-	else 
-	{
-		fprintf(stderr, "Created .gpx read's structure.\n" );
+	if(!(valiateMemoryPointer((void *)psGpxRead)))
+		{
+		fprintf(stderr, "ERROR_NULL_POINTER: psGpxRead\n");
+		return ERROR_NULL_POINTER;
 	}
 
 
@@ -86,7 +83,22 @@ int int main(int argc, char const *argv[])
 
 
 
+
 	/* code */
 	return 0;
+	}
+}
+
+
+int valiateMemoryPointer(void *pointer) {
+	if (pointer == NULL)
+	{
+		fprintf(stderr, "Error: NULL_POINTER.\nDidn't allocate memory for read's structure\n");
+		return ERROR_NULL_POINTER;
+	}
+	else 
+	{
+		fprintf(stderr, "Allocate structure memory.\n" );
+		return CORRECT_EXECUTE;
 	}
 }
