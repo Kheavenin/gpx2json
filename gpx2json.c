@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define GPX_PARAM_SIZE 8
 #define GPX_SOURCE_SIZE 64
@@ -11,6 +12,13 @@
 #define ERROR_MEMORY ERROR_DATA			//code for memory allocation
 #define ERROR_NULL_POINTER ERROR_DATA	//code for null pointer detection
 
+
+static unsigned int allocateMemCounter = 0;
+static unsigned int deallocateMemCounter = 0;
+
+void *allocateMemory(size_t size);
+void deallocateMemory(void *pMemoryHandler);
+int checkMemoryLeak(void);
 
 
 /** Structers definitons */
@@ -81,8 +89,9 @@ int int main(int argc, char const *argv[])
 
 
 
-
-
+	/* Deallocation */
+	free(psGpxRead);
+	free(psGpxParameters);
 
 	/* code */
 	return 0;
@@ -99,6 +108,50 @@ int valiateMemoryPointer(void *pointer) {
 	else 
 	{
 		fprintf(stderr, "Allocate structure memory.\n" );
+		return CORRECT_EXECUTE;
+	}
+}
+
+
+void *allocateMemory(size_t size) {
+	if(size < 1) {
+		fprintf(stderr, "ERROR_SIZE.\nSize passed to allocate: %ld\n", size );
+		return NULL;
+	}
+
+	void *pMemoryHandler = NULL;
+	pMemoryHandler = malloc(size);
+
+	if (pMemoryHandler != NULL)
+	{
+		++allocateMemCounter;
+		return (pMemoryHandler);
+	}
+	else 
+	{
+		fprintf(stderr, "ERROR_NULL_POINTER\nDidn't allocate memory with %ld size.\n",size );
+	}
+
+}
+
+void deallocateMemory(void *pMemoryHandler) {
+	if (pMemoryHandler != NULL)
+	{
+		free(pMemoryHandler);
+		++deallocateMemCounter;
+	}
+	else {
+		fprintf(stderr, "ERROR_NULL_POINTER\nCannot deallocate memory.\n");
+	}
+}
+
+int checkMemoryLeak(void) {
+	if(allocateMemCounter != deallocateMemCounter ) {
+		fprintf(stderr, "ERROR_MEMORY\nDetect memory leak.\nDiffrence between allocante and deallocate: %u", (allocateMemCounter - deallocateMemCounter));
+		return ERROR_MEMORY;
+	}
+	else{
+		/* No leak memory detected*/
 		return CORRECT_EXECUTE;
 	}
 }
