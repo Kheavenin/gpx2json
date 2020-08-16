@@ -48,7 +48,7 @@ int valiateMemoryPointer(void *pointer);
 
 
 
-int int main(int argc, char const *argv[])
+int main(int argc, char const *argv[])
 {
 
 	if((argv == NULL) || argc == 0 ) {
@@ -94,8 +94,8 @@ int int main(int argc, char const *argv[])
 	free(psGpxParameters);
 
 	/* code */
-return 0;
-	}
+	return 0;
+
 }
 
 
