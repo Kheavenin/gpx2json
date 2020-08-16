@@ -94,7 +94,7 @@ int int main(int argc, char const *argv[])
 	free(psGpxParameters);
 
 	/* code */
-	return 0;
+return 0;
 	}
 }
 
