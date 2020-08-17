@@ -12,6 +12,8 @@
 #define ERROR_MEMORY ERROR_DATA		  //code for memory allocation
 #define ERROR_NULL_POINTER ERROR_DATA //code for null pointer detection
 
+static unsigned int allocateMemoryCounter = 0;
+static unsigned int deallocateMemoryCounter = 0;
 /** Structers definitons */
 typedef struct
 {
@@ -32,42 +34,12 @@ typedef struct
 
 } gpxReadStruct;
 
-typedef struct
-{
-	unsigned int allocateMemoryCounter;
-	unsigned int deallocateMemoryCounter;
-
-} memoryGuardCountersStruct;
-
-typedef struct
-{
-	void *(*pAllocteMemory)(memoryGuardCountersStruct *s, size_t);
-	void (*pDeallocateMemory)(memoryGuardCountersStruct *s, void *);
-	int (*pMemoryLeak)(memoryGuardCountersStruct *s);
-} memoryGuardFunctionsStruct;
-
-typedef struct
-{
-	memoryGuardCountersStruct *pMemoryGuardCounter;
-	memoryGuardFunctionsStruct *pMemoryGuardFunctions;
-
-} memoryGuardStruct;
-
 /** Function prototypes */
-
 int valiateMemoryPointer(void *pointer);
 
-memoryGuardCountersStruct *initMemoryGuardCounters(void);
-memoryGuardFunctionsStruct *initMemoryGuardFunction(void *(*a)(memoryGuardCountersStruct *, size_t),
-													void (*d)(memoryGuardCountersStruct *, void *),
-													int (*l)(memoryGuardCountersStruct *));
-memoryGuardStruct *initMemoryGuard(void *(*a)(memoryGuardCountersStruct *, size_t),
-								   void (*d)(memoryGuardCountersStruct *, void *),
-								   int (*l)(memoryGuardCountersStruct *));
-
-void *allocateMemory(memoryGuardCountersStruct *s, size_t size);
-void deallocateMemory(memoryGuardCountersStruct *s, void *pMemoryHandler);
-int memoryLeak(memoryGuardCountersStruct *s);
+void *allocateMemory(size_t size);
+void deallocateMemory(void *pMemoryHandler);
+int memoryLeak(void);
 
 int main(int argc, char const *argv[])
 {
@@ -127,8 +99,9 @@ int valiateMemoryPointer(void *pointer)
 	}
 }
 
-void *allocateMemory(memoryGuardCountersStruct *s, size_t size)
+void *allocateMemory(size_t size)
 {
+
 	if (size < 1)
 	{
 		fprintf(stderr, "ERROR_SIZE.\nSize passed to allocate: %ld\n", size);
@@ -140,7 +113,7 @@ void *allocateMemory(memoryGuardCountersStruct *s, size_t size)
 
 	if (pMemoryHandler != NULL)
 	{
-		++(s->allocateMemoryCounter);
+		++(allocateMemoryCounter);
 		return (pMemoryHandler);
 	}
 	else
@@ -149,12 +122,13 @@ void *allocateMemory(memoryGuardCountersStruct *s, size_t size)
 	}
 }
 
-void deallocateMemory(memoryGuardCountersStruct *s, void *pMemoryHandler)
+void deallocateMemory(void *pMemoryHandler)
 {
+
 	if (pMemoryHandler != NULL)
 	{
 		free(pMemoryHandler);
-		++(s->deallocateMemoryCounter);
+		++(deallocateMemoryCounter);
 	}
 	else
 	{
@@ -162,11 +136,12 @@ void deallocateMemory(memoryGuardCountersStruct *s, void *pMemoryHandler)
 	}
 }
 
-int memoryLeak(memoryGuardCountersStruct *s)
+int memoryLeak(void)
 {
-	if ((s->allocateMemoryCounter) != (s->deallocateMemoryCounter))
+
+	if ((allocateMemoryCounter) != (deallocateMemoryCounter))
 	{
-		fprintf(stderr, "ERROR_MEMORY\nDetect memory leak.\nDiffrence between allocante and deallocate: %u", ((s->allocateMemoryCounter) - (s->deallocateMemoryCounter)));
+		fprintf(stderr, "ERROR_MEMORY\nDetect memory leak.\nDiffrence between allocante and deallocate: %u", ((allocateMemoryCounter) - (deallocateMemoryCounter)));
 		return ERROR_MEMORY;
 	}
 	else
@@ -174,73 +149,4 @@ int memoryLeak(memoryGuardCountersStruct *s)
 		/* No leak memory detected*/
 		return CORRECT_EXECUTE;
 	}
-}
-
-memoryGuardCountersStruct *initMemoryGuardCounters(void)
-{
-	memoryGuardCountersStruct memoryCountersGuard, *pMemoryCountersGuard = NULL;
-	pMemoryCountersGuard = &memoryCountersGuard;
-
-	if (pMemoryCountersGuard == NULL)
-	{
-		fprintf(stderr, "ERROR_MEMORY\nMemory Guard Counters have not been initalized.");
-		return ERROR_NULL_POINTER;
-	}
-
-	pMemoryCountersGuard->allocateMemoryCounter = 0;
-	pMemoryCountersGuard->deallocateMemoryCounter = 0;
-
-	return pMemoryCountersGuard;
-}
-
-memoryGuardFunctionsStruct *initMemoryGuardFunction(void *(*a)(memoryGuardCountersStruct *, size_t),
-													void (*d)(memoryGuardCountersStruct *, void *),
-													int (*l)(memoryGuardCountersStruct *))
-{
-	if (a == NULL || d == NULL || l == NULL)
-	{
-		fprintf(stderr, "ERROR_NULL_POINTER\nFuntions's pointers have no reference.");
-		return ERROR_NULL_POINTER;
-	}
-
-	memoryGuardFunctionsStruct memoryGuardFunctions, *pMemoryGuardFunctions = NULL;
-	pMemoryGuardFunctions = &memoryGuardFunctions;
-
-	if (pMemoryGuardFunctions == NULL)
-	{
-		fprintf(stderr, "ERROR_NULL_POINTER\nMemory Guard Functions have not been initalized.");
-		return ERROR_NULL_POINTER;
-	}
-
-	pMemoryGuardFunctions->pAllocteMemory = a;
-	pMemoryGuardFunctions->pDeallocateMemory = d;
-	pMemoryGuardFunctions->pMemoryLeak = l;
-
-	return pMemoryGuardFunctions;
-}
-
-memoryGuardStruct *initMemoryGuard(void *(*a)(memoryGuardCountersStruct *, size_t),
-								   void (*d)(memoryGuardCountersStruct *, void *),
-								   int (*l)(memoryGuardCountersStruct *))
-{
-	memoryGuardCountersStruct *pMemCount = initMemoryGuardCounters();
-	if (pMemCount == NULL)
-	{
-		fprintf(stderr, "ERROR_NULL_POINTER\nMemory Counters struct didn't create.");
-		return ERROR_NULL_POINTER;
-	}
-
-	memoryGuardFunctionsStruct *pMemFunc = initMemoryGuardFunction(a, d, l);
-	if (pMemFunc == NULL)
-	{
-		fprintf(stderr, "ERROR_NULL_POINTER\nMemory Functions struct didn't create.");
-		return ERROR_NULL_POINTER;
-	}
-
-	memoryGuardStruct sMemoryGuard, *psMemoryGuard;
-	psMemoryGuard = &sMemoryGuard;
-	psMemoryGuard->pMemoryGuardCounter = pMemCount;
-	psMemoryGuard->pMemoryGuardFunctions = pMemFunc;
-
-	return psMemoryGuard;
 }
