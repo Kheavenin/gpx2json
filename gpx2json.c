@@ -48,8 +48,8 @@ typedef struct
 
 typedef struct
 {
-	memoryGuardCountersStruct sMemoryGuardCounter;
-	memoryGuardFunctionsStruct sMemoryGuardFunctions;
+	memoryGuardCountersStruct *pMemoryGuardCounter;
+	memoryGuardFunctionsStruct *pMemoryGuardFunctions;
 
 } memoryGuardStruct;
 
@@ -61,6 +61,9 @@ memoryGuardCountersStruct *initMemoryGuardCounters(void);
 memoryGuardFunctionsStruct *initMemoryGuardFunction(void *(*a)(memoryGuardCountersStruct *, size_t),
 													void (*d)(memoryGuardCountersStruct *, void *),
 													int (*l)(memoryGuardCountersStruct *));
+memoryGuardStruct *initMemoryGuard(void *(*a)(memoryGuardCountersStruct *, size_t),
+								   void (*d)(memoryGuardCountersStruct *, void *),
+								   int (*l)(memoryGuardCountersStruct *));
 
 void *allocateMemory(memoryGuardCountersStruct *s, size_t size);
 void deallocateMemory(memoryGuardCountersStruct *s, void *pMemoryHandler);
@@ -233,4 +236,11 @@ memoryGuardStruct *initMemoryGuard(void *(*a)(memoryGuardCountersStruct *, size_
 		fprintf(stderr, "ERROR_NULL_POINTER\nMemory Functions struct didn't create.");
 		return ERROR_NULL_POINTER;
 	}
+
+	memoryGuardStruct sMemoryGuard, *psMemoryGuard;
+	psMemoryGuard = &sMemoryGuard;
+	psMemoryGuard->pMemoryGuardCounter = pMemCount;
+	psMemoryGuard->pMemoryGuardFunctions = pMemFunc;
+
+	return psMemoryGuard;
 }
