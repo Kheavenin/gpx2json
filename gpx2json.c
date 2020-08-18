@@ -21,7 +21,7 @@ typedef struct
 {
     char gpxEncoding[GPX_PARAM_SIZE];
     char gpxVer[GPX_PARAM_SIZE];
-    char gpxSource[GPX_SOURCE_SIZE];
+    char *gpxSource;
     char gpxActivityType[GPX_PARAM_SIZE];
 
     unsigned int readLines;
@@ -53,12 +53,12 @@ int main(int argc, char const *argv[])
     }
 
     /* Create structures and pointers to thier */
-    gpxParamtersStruct sGpxParameters, *psGpxParameters = NULL;
-    gpxReadStruct sGpxRead, *psGpxRead = NULL;
+    gpxParamtersStruct *psGpxParameters = NULL;
+    gpxReadStruct *psGpxRead = NULL;
 
     /* Allocation memmory for structures */
-    psGpxParameters = malloc(sizeof(sGpxParameters));
-    psGpxRead = malloc(sizeof(sGpxRead));
+    psGpxParameters = malloc(sizeof(gpxParamtersStruct));
+    psGpxRead = malloc(sizeof(gpxReadStruct));
 
     /* Check memory allocations */
     if (!((valiateMemoryPointer((void *)psGpxParameters))))
@@ -97,7 +97,9 @@ int main(int argc, char const *argv[])
             printf("\nRead author name: %s\n", line);
             printf("In line: %lu", (psGpxParameters->readLines));
 
-            findAuthor(line, strlen(line));
+            char *pAuthor = findAuthor(line, strlen(line));
+            printf("Found: %s", pAuthor);
+            psGpxParameters->gpxSource = pAuthor;
         }
 
         psGpxParameters->readLines += 1;

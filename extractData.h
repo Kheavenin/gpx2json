@@ -11,4 +11,4 @@ extern char type[];
 extern char trackingPoints[];
 extern char elevation[];
 
-int findAuthor(char *s, size_t size);
+char *findAuthor(char *s, size_t size);
