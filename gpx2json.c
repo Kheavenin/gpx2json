@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
+
+#include "extractData.h"
 
 #define GPX_PARAM_SIZE 8
 #define GPX_SOURCE_SIZE 64
@@ -35,15 +36,6 @@ typedef struct
 } gpxReadStruct;
 
 char line[128];
-
-char author[] = "<author>";
-char name[] = "<name>";
-char time[] = "<time>";
-char source[] = "<scr>";
-char type[] = "<type>";
-
-char trackingPoints[] = "<trkpt";
-char elevation[] = "<ele>";
 
 /** Function prototypes */
 int valiateMemoryPointer(void *pointer);
