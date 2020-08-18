@@ -33,7 +33,7 @@ typedef struct
     char gpxLongitude[GPX_ARRAY_SIZE];
     char gpxElevation[GPX_ARRAY_SIZE];
     char gpxData[GPX_ARRAY_SIZE];
-    char gpxTime[GPX_ARRAY_SIZE];
+    char *gpxTime;
 
 } gpxReadStruct;
 
@@ -102,6 +102,14 @@ int main(int argc, char const *argv[])
                 psGpxParameters->gpxSource = pAuthor;
             }
             free(pAuthor);
+
+            char *pTime = findTime(line, strlen(line));
+            if (pTime != NULL)
+            {
+                printf("\nFound time: %s", pTime);
+                psGpxRead->gpxTime = pTime;
+            }
+            free(pTime);
         }
 
         psGpxParameters->readLines += 1;

@@ -4,6 +4,7 @@ char author[] = "<author>";
 char name[] = "<name>";
 char end_name[] = "</name>";
 char time[] = "<time>";
+char end_time[] = "</time>";
 char source[] = "<scr>";
 char type[] = "<type>";
 char trackingPoints[] = "<trkpt";
@@ -39,6 +40,18 @@ char *findAuthor(char *s, size_t size)
         size_t span = getSpan(size, name, end_name);
         //printf("\n span: %lu\n", span);
         return getString(begin, size, sizeof(name), span);
+    }
+    return NULL;
+}
+
+char *findTime(char *s, size_t size)
+{
+    char *begin = NULL, *end = NULL;
+    begin = strstr(s, time);
+    if (begin)
+    {
+        size_t span = getSpan(size, time, end_time);
+        return getString(begin, size, sizeof(time), span);
     }
     return NULL;
 }

@@ -12,3 +12,4 @@ extern char trackingPoints[];
 extern char elevation[];
 
 char *findAuthor(char *s, size_t size);
+char *findTime(char *s, size_t size);
