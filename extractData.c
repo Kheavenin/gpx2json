@@ -9,6 +9,20 @@ char type[] = "<type>";
 char trackingPoints[] = "<trkpt";
 char elevation[] = "<ele>";
 
+static size_t getSpan(char *s, char *start, char *end)
+{
+    return (strlen(s) - strlen(start) - strlen(end));
+}
+
+static char *getString(char *start, size_t size, size_t span, char *m)
+{
+    char *author;
+    author = malloc(size);
+    strncpy(author, start + sizeof(m) - 1, span);
+
+    return author;
+}
+
 char *findAuthor(char *s, size_t size)
 {
     char *begin = NULL, *end = NULL;
@@ -16,15 +30,13 @@ char *findAuthor(char *s, size_t size)
     if (begin)
     {
         end = strstr(s, end_name);
-        size_t span = strlen(s) - strlen(name) - strlen(end_name);
-        //   printf("\n span: %lu\n", span);
         if (end)
         {
-            char *author;
-            author = malloc(size);
-            strncpy(author, begin + sizeof(name) - 1, span);
+            size_t span = getSpan(s, name, end_name);
+            return getString(s, size, span, name);
+            //  strncpy(author, begin + sizeof(name) - 1, span);
             //    printf("Author: %s", author);
-            return author;
+            //   printf("\n span: %lu\n", span);
         }
         return NULL;
     }
