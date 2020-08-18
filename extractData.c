@@ -17,13 +17,13 @@ char *findAuthor(char *s, size_t size)
     {
         end = strstr(s, end_name);
         size_t span = strlen(s) - strlen(name) - strlen(end_name);
-        printf("\n span: %lu\n", span);
+        //   printf("\n span: %lu\n", span);
         if (end)
         {
             char *author;
             author = malloc(size);
             strncpy(author, begin + sizeof(name) - 1, span);
-            printf("Author: %s", author);
+            //    printf("Author: %s", author);
             return author;
         }
         return NULL;

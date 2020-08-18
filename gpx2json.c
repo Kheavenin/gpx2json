@@ -92,14 +92,16 @@ int main(int argc, char const *argv[])
     /** Read file */
     while (fscanf(inputFile, "%127[^\n]\n", line) == 1)
     {
-        if (strstr(line, name))
+        if ((psGpxParameters->readLines) < 20)
         {
-            printf("\nRead author name: %s\n", line);
-            printf("In line: %lu", (psGpxParameters->readLines));
-
             char *pAuthor = findAuthor(line, strlen(line));
-            printf("Found: %s", pAuthor);
-            psGpxParameters->gpxSource = pAuthor;
+            if (pAuthor != NULL)
+            {
+                printf("\nFound: %s", pAuthor);
+                printf("\tIn line: %lu", (psGpxParameters->readLines));
+                psGpxParameters->gpxSource = pAuthor;
+            }
+            free(pAuthor);
         }
 
         psGpxParameters->readLines += 1;
