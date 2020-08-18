@@ -80,8 +80,6 @@ int main(int argc, char const *argv[])
         fprintf(stderr, "\nCannot create output file.");
     }
 
-    printf("ChUJ");
-
     /* Deallocation */
     unsigned int inputCloseStatus = fclose(inputFile);
     unsigned int outputCloseStatus = fclose(outputFile);
