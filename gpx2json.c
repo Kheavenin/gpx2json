@@ -9,8 +9,8 @@
 
 #define CORRECT_EXECUTE 1
 #define ERROR_DATA 0
-#define ERROR_MEMORY ERROR_DATA       //code for memory allocation
-#define ERROR_NULL_POINTER ERROR_DATA //code for null pointer detection
+#define ERROR_MEMORY 0       //code for memory allocation
+#define ERROR_NULL_POINTER 0 //code for null pointer detection
 
 /** Structers definitons */
 typedef struct
@@ -34,6 +34,7 @@ typedef struct
 
 /** Function prototypes */
 int valiateMemoryPointer(void *pointer);
+int valiateFilePointer(FILE *pointer);
 
 int main(int argc, char const *argv[])
 {
@@ -96,12 +97,18 @@ int valiateMemoryPointer(void *pointer)
 {
     if (pointer == NULL)
     {
-        fprintf(stderr, "Error: NULL_POINTER.\nDidn't allocate memory for read's structure\n");
+        fprintf(stderr, "ERROR_NULL_POINTER.\nDidn't allocate memory for read's structure\n");
         return ERROR_NULL_POINTER;
     }
-    else
+    return CORRECT_EXECUTE;
+}
+
+int valiateFilePointer(FILE *pointer)
+{
+    if (pointer == NULL)
     {
-        fprintf(stderr, "Allocate structure memory.\n");
-        return CORRECT_EXECUTE;
+        fprintf(stderr, "ERROR_NULL_POINTER.\nCannot open file.\n");
+        return ERROR_NULL_POINTER;
     }
+    return CORRECT_EXECUTE;
 }
