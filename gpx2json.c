@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define GPX_PARAM_SIZE 8
 #define GPX_SOURCE_SIZE 64
@@ -8,97 +9,99 @@
 
 #define CORRECT_EXECUTE 1
 #define ERROR_DATA 0
-#define ERROR_MEMORY ERROR_DATA			//code for memory allocation
-#define ERROR_NULL_POINTER ERROR_DATA	//code for null pointer detection
-
-
+#define ERROR_MEMORY ERROR_DATA       //code for memory allocation
+#define ERROR_NULL_POINTER ERROR_DATA //code for null pointer detection
 
 /** Structers definitons */
-typedef struct 
+typedef struct
 {
-	char gpxEncoding[GPX_PARAM_SIZE];
-	char gpxVer[GPX_PARAM_SIZE];
-	char gpxSource[GPX_SOURCE_SIZE];
-	
-	int readLines;
+    char gpxEncoding[GPX_PARAM_SIZE];
+    char gpxVer[GPX_PARAM_SIZE];
+    char gpxSource[GPX_SOURCE_SIZE];
+
+    int readLines;
 } gpxParamtersStruct;
 
-typedef struct 
+typedef struct
 {
-	char gpxLatitude[GPX_ARRAY_SIZE];
-	char gpxLongitude[GPX_ARRAY_SIZE];
-	char gpxElevation[GPX_ARRAY_SIZE];
-	char gpxData[GPX_ARRAY_SIZE];
-	char gpxTime[GPX_ARRAY_SIZE];
+    char gpxLatitude[GPX_ARRAY_SIZE];
+    char gpxLongitude[GPX_ARRAY_SIZE];
+    char gpxElevation[GPX_ARRAY_SIZE];
+    char gpxData[GPX_ARRAY_SIZE];
+    char gpxTime[GPX_ARRAY_SIZE];
 
 } gpxReadStruct;
 
 /** Function prototypes */
 int valiateMemoryPointer(void *pointer);
 
-
-
-
-
-int int main(int argc, char const *argv[])
+int main(int argc, char const *argv[])
 {
 
-	if((argv == NULL) || argc == 0 ) {
-		fprintf(stderr ,"\nInvalid arguments.\n");
-		return ERROR_DATA ;
-	}
-		
+    if ((argv == NULL) || argc == 0)
+    {
+        fprintf(stderr, "\nInvalid arguments.\n");
+        return ERROR_DATA;
+    }
 
-	/* Create structures and pointers to thier */
-	gpxParamtersStruct sGpxParameters, *psGpxParameters = NULL;
-	gpxReadStruct sGpxRead, *psGpxRead = NULL;
+    /* Create structures and pointers to thier */
+    gpxParamtersStruct sGpxParameters, *psGpxParameters = NULL;
+    gpxReadStruct sGpxRead, *psGpxRead = NULL;
 
-	/* Allocation memmory for structures */
-	psGpxParameters = malloc(sizeof(sGpxParameters));
-	psGpxRead = malloc(sizeof(sGpxRead));
+    /* Allocation memmory for structures */
+    psGpxParameters = malloc(sizeof(sGpxParameters));
+    psGpxRead = malloc(sizeof(sGpxRead));
 
-	/* Check memory allocations */
-	if (!((valiateMemoryPointer((void *) psGpxParameters))))
-	{
-		fprintf(stderr, "ERROR_NULL_POINTER: psGpxParameters\n");
-		return ERROR_NULL_POINTER;
-	}
-	if(!(valiateMemoryPointer((void *)psGpxRead)))
-		{
-		fprintf(stderr, "ERROR_NULL_POINTER: psGpxRead\n");
-		return ERROR_NULL_POINTER;
-	}
+    /* Check memory allocations */
+    if (!((valiateMemoryPointer((void *)psGpxParameters))))
+    {
+        fprintf(stderr, "ERROR_NULL_POINTER: psGpxParameters\n");
+        return ERROR_NULL_POINTER;
+    }
+    if (!(valiateMemoryPointer((void *)psGpxRead)))
+    {
+        fprintf(stderr, "ERROR_NULL_POINTER: psGpxRead\n");
+        return ERROR_NULL_POINTER;
+    }
 
+    FILE *inputFile = NULL;
+    FILE *outputFile = NULL;
+    inputFile = fopen(argv[1], "r"); //first argument - gpx file to read gps position and time
+    outputFile = fopen(argv[2], "w");
 
+    if (inputFile == NULL)
+    {
+        fprintf(stderr, "\nCannot open input file");
+    }
 
-	FILE *inputFile;
-	inputFile = fopen(argv[1], "r"); //first argument - gpx file to read gps position and time
-	if (inputFile == NULL)
-	{
-		fprintf(stderr, "Cannot open inputFile\n");
-	}
+    if (outputFile == NULL)
+    {
+        fprintf(stderr, "\nCannot create output file.");
+    }
 
+    printf("ChUJ");
 
+    /* Deallocation */
+    unsigned int inputCloseStatus = fclose(inputFile);
+    unsigned int outputCloseStatus = fclose(outputFile);
 
+    free(psGpxRead);
+    free(psGpxParameters);
 
-
-
-
-	/* code */
-	return 0;
-	}
+    /* code */
+    return 0;
 }
 
-
-int valiateMemoryPointer(void *pointer) {
-	if (pointer == NULL)
-	{
-		fprintf(stderr, "Error: NULL_POINTER.\nDidn't allocate memory for read's structure\n");
-		return ERROR_NULL_POINTER;
-	}
-	else 
-	{
-		fprintf(stderr, "Allocate structure memory.\n" );
-		return CORRECT_EXECUTE;
-	}
+int valiateMemoryPointer(void *pointer)
+{
+    if (pointer == NULL)
+    {
+        fprintf(stderr, "Error: NULL_POINTER.\nDidn't allocate memory for read's structure\n");
+        return ERROR_NULL_POINTER;
+    }
+    else
+    {
+        fprintf(stderr, "Allocate structure memory.\n");
+        return CORRECT_EXECUTE;
+    }
 }
