@@ -21,7 +21,7 @@ typedef struct
     char gpxSource[GPX_SOURCE_SIZE];
     char gpxActivityType[GPX_PARAM_SIZE];
 
-    int readLines;
+    unsigned int readLines;
 } gpxParamtersStruct;
 
 typedef struct
@@ -34,9 +34,7 @@ typedef struct
 
 } gpxReadStruct;
 
-typedef struct
-{
-} gpxMarkersStruct;
+char line[128];
 
 char author[] = "<author>";
 char name[] = "<name>";
@@ -80,6 +78,8 @@ int main(int argc, char const *argv[])
         return ERROR_NULL_POINTER;
     }
 
+    psGpxParameters->readLines = 0;
+
     FILE *inputFile = NULL;
     FILE *outputFile = NULL;
     inputFile = fopen(argv[1], "r"); //first argument - gpx file to read gps position and time
@@ -93,6 +93,19 @@ int main(int argc, char const *argv[])
     if (!valiateFilePointer(outputFile))
     {
         fprintf(stderr, "\nCannot create output file.");
+    }
+
+    /** Read file */
+    while (fscanf(inputFile, "%127[^\n]\n", line) == 1)
+    {
+        if (strstr(line, name))
+        {
+            printf("\nRead author name: %s\n", line);
+            printf("In line: %lu", (psGpxParameters->readLines));
+        }
+
+        psGpxParameters->readLines += 1;
+        printf("Read lines: %lu", (psGpxParameters->readLines));
     }
 
     /* Deallocation */
