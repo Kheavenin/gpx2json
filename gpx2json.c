@@ -118,6 +118,8 @@ int main(int argc, char const *argv[])
             free(pType);
         }
 
+        /* Find line wich tracking points */
+
         psGpxParameters->readLines += 1;
         // printf("Read lines: %lu", (psGpxParameters->readLines));
     }

@@ -71,3 +71,16 @@ char *findActivity(char *s, size_t size)
 
     return NULL;
 }
+
+char *findTrackPoints(char *s, size_t size)
+{
+    char *begin = NULL, *end = NULL;
+    begin = strstr(s, trackingPoints);
+
+    if (begin)
+    {
+        return getString(begin, size, sizeof(trackingPoints), getSpan(size, trackingPoints, ">"));
+    }
+
+    return NULL;
+}
