@@ -6,6 +6,7 @@
 #define GPX_PARAM_SIZE 8
 #define GPX_SOURCE_SIZE 64
 #define GPX_ARRAY_SIZE 16
+#define GPX_MARKERS_SIZE 8
 
 #define CORRECT_EXECUTE 1
 #define ERROR_DATA 0
@@ -18,6 +19,7 @@ typedef struct
     char gpxEncoding[GPX_PARAM_SIZE];
     char gpxVer[GPX_PARAM_SIZE];
     char gpxSource[GPX_SOURCE_SIZE];
+    char gpxActivityType[GPX_PARAM_SIZE];
 
     int readLines;
 } gpxParamtersStruct;
@@ -32,6 +34,19 @@ typedef struct
 
 } gpxReadStruct;
 
+typedef struct
+{
+} gpxMarkersStruct;
+
+char author[] = "<author>";
+char name[] = "<name>";
+char time[] = "<time>";
+char source[] = "<scr>";
+char type[] = "<type>";
+
+char trackingPoints[] = "<trkpt";
+char elevation[] = "<ele>";
+
 /** Function prototypes */
 int valiateMemoryPointer(void *pointer);
 int valiateFilePointer(FILE *pointer);
@@ -39,7 +54,7 @@ int valiateFilePointer(FILE *pointer);
 int main(int argc, char const *argv[])
 {
 
-    if ((argv == NULL) || argc == 0)
+    if ((argv == NULL) || (argc != 3))
     {
         fprintf(stderr, "\nInvalid arguments.\n");
         return ERROR_DATA;
@@ -70,12 +85,12 @@ int main(int argc, char const *argv[])
     inputFile = fopen(argv[1], "r"); //first argument - gpx file to read gps position and time
     outputFile = fopen(argv[2], "w");
 
-    if (inputFile == NULL)
+    if (!valiateFilePointer(inputFile))
     {
         fprintf(stderr, "\nCannot open input file");
     }
 
-    if (outputFile == NULL)
+    if (!valiateFilePointer(outputFile))
     {
         fprintf(stderr, "\nCannot create output file.");
     }
