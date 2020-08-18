@@ -2,13 +2,16 @@
 
 char author[] = "<author>";
 char name[] = "<name>";
-char end_name[] = "</name>";
 char time[] = "<time>";
-char end_time[] = "</time>";
 char source[] = "<scr>";
 char type[] = "<type>";
+
 char trackingPoints[] = "<trkpt";
 char elevation[] = "<ele>";
+
+char end_name[] = "</name>";
+char end_time[] = "</time>";
+char end_type[] = "</type>";
 
 static size_t getSpan(size_t size, char *start, char *end)
 {
@@ -53,5 +56,18 @@ char *findTime(char *s, size_t size)
         size_t span = getSpan(size, time, end_time);
         return getString(begin, size, sizeof(time), span);
     }
+    return NULL;
+}
+
+char *findActivity(char *s, size_t size)
+{
+    char *begin = NULL, *end = NULL;
+    begin = strstr(s, type);
+    if (begin)
+    {
+        size_t span = getSpan(size, type, end_type);
+        return getString(begin, size, sizeof(type), span);
+    }
+
     return NULL;
 }

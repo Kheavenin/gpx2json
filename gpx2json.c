@@ -22,8 +22,7 @@ typedef struct
     char gpxEncoding[GPX_PARAM_SIZE];
     char gpxVer[GPX_PARAM_SIZE];
     char *gpxSource;
-    char gpxActivityType[GPX_PARAM_SIZE];
-
+    char *gpxActivityType;
     unsigned int readLines;
 } gpxParamtersStruct;
 
@@ -32,9 +31,8 @@ typedef struct
     char gpxLatitude[GPX_ARRAY_SIZE];
     char gpxLongitude[GPX_ARRAY_SIZE];
     char gpxElevation[GPX_ARRAY_SIZE];
-    char gpxData[GPX_ARRAY_SIZE];
+    char *gpxData;
     char *gpxTime;
-
 } gpxReadStruct;
 
 char line[128];
@@ -92,7 +90,7 @@ int main(int argc, char const *argv[])
     /** Read file */
     while (fscanf(inputFile, "%127[^\n]\n", line) == 1)
     {
-        if ((psGpxParameters->readLines) < 20)
+        if ((psGpxParameters->readLines) < 21)
         {
             char *pAuthor = findAuthor(line, strlen(line));
             if (pAuthor != NULL)
@@ -110,6 +108,14 @@ int main(int argc, char const *argv[])
                 psGpxRead->gpxTime = pTime;
             }
             free(pTime);
+
+            char *pType = findActivity(line, strlen(line));
+            if (pType != NULL)
+            {
+                printf("\nFound activity type: %s", pType);
+                psGpxParameters->gpxActivityType = pType;
+            }
+            free(pType);
         }
 
         psGpxParameters->readLines += 1;
