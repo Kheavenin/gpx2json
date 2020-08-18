@@ -1,0 +1,8 @@
+#gpx2json MakeFile
+
+gpx2json: gpx2json.o 
+	gcc gpx2json.o -o gpx2json
+
+gpx2json.o: gpx2json.c 
+	gcc -c gpx2json.c
+
