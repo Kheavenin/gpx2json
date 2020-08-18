@@ -14,6 +14,8 @@
 #define ERROR_MEMORY 0       //code for memory allocation
 #define ERROR_NULL_POINTER 0 //code for null pointer detection
 
+extern char name[];
+
 /** Structers definitons */
 typedef struct
 {
@@ -94,10 +96,12 @@ int main(int argc, char const *argv[])
         {
             printf("\nRead author name: %s\n", line);
             printf("In line: %lu", (psGpxParameters->readLines));
+
+            findAuthor(line, strlen(line));
         }
 
         psGpxParameters->readLines += 1;
-        printf("Read lines: %lu", (psGpxParameters->readLines));
+        // printf("Read lines: %lu", (psGpxParameters->readLines));
     }
 
     /* Deallocation */

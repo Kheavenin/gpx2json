@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-char author[] = "<author>";
-char name[] = "<name>";
-char end_name[] = "</name>";
-char time[] = "<time>";
-char source[] = "<scr>";
-char type[] = "<type>";
-char trackingPoints[] = "<trkpt";
-char elevation[] = "<ele>";
+extern char author[];
+extern char name[];
+extern char end_name[];
+extern char time[];
+extern char source[];
+extern char type[];
+extern char trackingPoints[];
+extern char elevation[];
 
 int findAuthor(char *s, size_t size);
