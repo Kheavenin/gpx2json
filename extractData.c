@@ -113,12 +113,13 @@ char *findTime(char *s, size_t size)
 
 char *findActivity(char *s, size_t size)
 {
-    char *begin = NULL, *end = NULL;
+    char *begin = NULL;
     begin = strstr(s, type);
     if (begin)
-    {
+    { /*
         size_t span = getSpan(s, type, end_type);
-        return getString(begin, size, sizeof(type), span);
+        return getString(begin, size, sizeof(type), span);*/
+        return getStringFrom(s, type, end_type);
     }
 
     return NULL;
