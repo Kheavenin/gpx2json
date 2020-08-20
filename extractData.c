@@ -53,7 +53,7 @@ static unsigned int getSpan(const char *s, const char *start, const char *end)
         if (b && e)
         {
             unsigned int span = (e - b);
-            //    printf("\ninside getSpan span: %u", span);
+            printf("\n ----- Inside getSpan span: %u", span);
             return span;
         }
         return 0;
@@ -66,8 +66,8 @@ char *getStringFrom(const char *s, const char *start, const char *end)
     unsigned int span = getSpan(s, start, end);
     char *begin = strstr(s, start);
     char *the_end = strstr(begin + strlen(start), end);
-    //printf("\nInside getStrin ----- :Begin: %s", begin);
-    //printf("\nInside getStrin ----- :End: %s\nSpan: %u", end, span);
+    printf("\nInside getStrin ----- :Begin: %s", begin);
+    printf("\nInside getStrin ----- :End: %s\nSpan: %u", end, span);
 
     char *str = malloc((span - strlen(start)) * sizeof(char));
     strncpy(str, begin + strlen(start), span - strlen(start));
@@ -97,12 +97,13 @@ char *findAuthor(char *s, size_t size)
 
 char *findTime(char *s, size_t size)
 {
-    char *begin = NULL, *end = NULL;
+    char *begin = NULL;
     begin = strstr(s, time);
     if (begin)
-    {
+    { /*
         size_t span = getSpan(s, time, end_time);
-        return getString(begin, size, sizeof(time), span);
+        return getString(begin, size, sizeof(time), span);*/
+        return getStringFrom(s, time, end_time);
     }
     return NULL;
 }
