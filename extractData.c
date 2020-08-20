@@ -53,7 +53,7 @@ static unsigned int getSpan(const char *s, const char *start, const char *end)
         if (b && e)
         {
             unsigned int span = (e - b);
-            printf("\n ----- Inside getSpan span: %u", span);
+            //    printf("\n ----- Inside getSpan span: %u", span);
             return span;
         }
         return 0;
@@ -66,8 +66,8 @@ char *getStringFrom(const char *s, const char *start, const char *end)
     unsigned int span = getSpan(s, start, end);
     char *begin = strstr(s, start);
     char *the_end = strstr(begin + strlen(start), end);
-    printf("\nInside getStrin ----- :Begin: %s", begin);
-    printf("\nInside getStrin ----- :End: %s\nSpan: %u", end, span);
+    //    printf("\nInside getStrin ----- :Begin: %s", begin);
+    //    printf("\nInside getStrin ----- :End: %s\nSpan: %u", end, span);
 
     char *str = malloc((span - strlen(start)) * sizeof(char));
     strncpy(str, begin + strlen(start), span - strlen(start));
@@ -130,13 +130,16 @@ char *findActivity(char *s, size_t size)
 
 char *findTrackPoints(char *s, size_t size)
 {
-    char *begin = NULL, *end = NULL;
+    char *begin = NULL;
     begin = strstr(s, trackingPoints);
 
     if (begin)
     {
+        /*
         size_t span = getSpan(s, trackingPoints, end_trackingPoints);
         return getString(begin, size, sizeof(trackingPoints), span);
+        */
+        return getStringFrom(s, trackingPoints, end_trackingPoints);
     }
 
     return NULL;
