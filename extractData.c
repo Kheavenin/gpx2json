@@ -97,6 +97,9 @@ char *findAuthor(char *s, size_t size)
 
 char *findTime(char *s, size_t size)
 {
+    if (s == NULL || size < 1)
+        return NULL;
+
     char *begin = NULL;
     begin = strstr(s, time);
     if (begin)
