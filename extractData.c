@@ -113,6 +113,9 @@ char *findTime(char *s, size_t size)
 
 char *findActivity(char *s, size_t size)
 {
+    if (s == NULL || size < 1)
+        return NULL;
+
     char *begin = NULL;
     begin = strstr(s, type);
     if (begin)
