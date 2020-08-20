@@ -9,7 +9,7 @@ char type[] = "<type>";
 char trackingPoints[] = "<trkpt";
 const char *lat = "lat=\"";
 const char *lon = "lon=\"";
-char *elevation = "<ele>";
+const char *elevation = "<ele>";
 
 char *end_trackingPoints = "\">";
 const char *end_lat = "\"";
@@ -156,9 +156,22 @@ char *extractLatitude(char *s, size_t size)
     {
         /*  size_t span = getSpan(s, lat, end_lat);
         printf("\nspan: %lu", span);*/
-        char *tmpChar = getStringFrom(s, lat, end_lat);
+        char *lattitude = getStringFrom(s, lat, end_lat);
         //            printf("\nExt string: %s", tmpChar);
-        return tmpChar;
+        return lattitude;
+    }
+
+    return NULL;
+}
+
+char *extractLongitude(char *s, size_t size)
+{
+    char *begin = NULL;
+    begin = strstr(s, lon);
+    if (begin)
+    {
+        char *longitude = getStringFrom(s, lon, end_lon);
+        return longitude;
     }
 
     return NULL;
