@@ -14,7 +14,7 @@
 #define ERROR_MEMORY 0       //code for memory allocation
 #define ERROR_NULL_POINTER 0 //code for null pointer detection
 
-extern char name[];
+extern char *end_lat;
 
 /** Structers definitons */
 typedef struct
@@ -118,8 +118,19 @@ int main(int argc, char const *argv[])
             free(pType);
         }
 
-        /* Find line wich tracking points */
-
+        if ((psGpxParameters->readLines) < 50)
+        {
+            /* Find line wich tracking points */
+            char *trackPoints = findTrackPoints(line, strlen(line));
+            if (trackPoints != NULL)
+            {
+                printf("\nTrack point: %s", trackPoints);
+                char *tmpLat = extractLatitude(trackPoints, strlen(trackPoints)); //  NULL; //=
+                printf("\nExtracted latitude: %s", tmpLat);
+                free(tmpLat);
+            }
+            free(trackPoints);
+        }
         psGpxParameters->readLines += 1;
         // printf("Read lines: %lu", (psGpxParameters->readLines));
     }
