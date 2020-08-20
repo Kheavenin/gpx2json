@@ -14,14 +14,15 @@
 #define ERROR_MEMORY 0       //code for memory allocation
 #define ERROR_NULL_POINTER 0 //code for null pointer detection
 
+extern char *end_lat;
+
 /** Structers definitons */
 typedef struct
 {
     char gpxEncoding[GPX_PARAM_SIZE];
     char gpxVer[GPX_PARAM_SIZE];
-    char gpxSource[GPX_SOURCE_SIZE];
-    char gpxActivityType[GPX_PARAM_SIZE];
-
+    char *gpxSource;
+    char *gpxActivityType;
     unsigned int readLines;
 } gpxParamtersStruct;
 
@@ -30,9 +31,8 @@ typedef struct
     char gpxLatitude[GPX_ARRAY_SIZE];
     char gpxLongitude[GPX_ARRAY_SIZE];
     char gpxElevation[GPX_ARRAY_SIZE];
-    char gpxData[GPX_ARRAY_SIZE];
-    char gpxTime[GPX_ARRAY_SIZE];
-
+    char *gpxData;
+    char *gpxTime;
 } gpxReadStruct;
 
 char line[128];
@@ -51,12 +51,12 @@ int main(int argc, char const *argv[])
     }
 
     /* Create structures and pointers to thier */
-    gpxParamtersStruct sGpxParameters, *psGpxParameters = NULL;
-    gpxReadStruct sGpxRead, *psGpxRead = NULL;
+    gpxParamtersStruct *psGpxParameters = NULL;
+    gpxReadStruct *psGpxRead = NULL;
 
     /* Allocation memmory for structures */
-    psGpxParameters = malloc(sizeof(sGpxParameters));
-    psGpxRead = malloc(sizeof(sGpxRead));
+    psGpxParameters = malloc(sizeof(gpxParamtersStruct));
+    psGpxRead = malloc(sizeof(gpxReadStruct));
 
     /* Check memory allocations */
     if (!((valiateMemoryPointer((void *)psGpxParameters))))
@@ -90,14 +90,49 @@ int main(int argc, char const *argv[])
     /** Read file */
     while (fscanf(inputFile, "%127[^\n]\n", line) == 1)
     {
-        if (strstr(line, name))
+        if ((psGpxParameters->readLines) < 21)
         {
-            printf("\nRead author name: %s\n", line);
-            printf("In line: %lu", (psGpxParameters->readLines));
+            char *pAuthor = findAuthor(line, strlen(line));
+            if (pAuthor != NULL)
+            {
+                printf("\nFound: %s", pAuthor);
+                printf("\tIn line: %lu", (psGpxParameters->readLines));
+                psGpxParameters->gpxSource = pAuthor;
+            }
+            free(pAuthor);
+
+            char *pTime = findTime(line, strlen(line));
+            if (pTime != NULL)
+            {
+                printf("\nFound time: %s", pTime);
+                psGpxRead->gpxTime = pTime;
+            }
+            free(pTime);
+
+            char *pType = findActivity(line, strlen(line));
+            if (pType != NULL)
+            {
+                printf("\nFound activity type: %s", pType);
+                psGpxParameters->gpxActivityType = pType;
+            }
+            free(pType);
         }
 
+        if ((psGpxParameters->readLines) < 50)
+        {
+            /* Find line wich tracking points */
+            char *trackPoints = findTrackPoints(line, strlen(line));
+            if (trackPoints != NULL)
+            {
+                printf("\nTrack point: %s", trackPoints);
+                char *tmpLat = extractLatitude(trackPoints, strlen(trackPoints)); //  NULL; //=
+                printf("\nExtracted latitude: %s", tmpLat);
+                free(tmpLat);
+            }
+            free(trackPoints);
+        }
         psGpxParameters->readLines += 1;
-        printf("Read lines: %lu", (psGpxParameters->readLines));
+        // printf("Read lines: %lu", (psGpxParameters->readLines));
     }
 
     /* Deallocation */
