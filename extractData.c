@@ -78,6 +78,9 @@ char *getStringFrom(const char *s, const char *start, const char *end)
 
 char *findAuthor(char *s, size_t size)
 {
+    if (s == NULL || size < 1)
+        return NULL;
+
     char *begin = NULL;
     begin = strstr(s, name);
     if (begin)
