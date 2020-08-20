@@ -78,13 +78,16 @@ char *getStringFrom(const char *s, const char *start, const char *end)
 
 char *findAuthor(char *s, size_t size)
 {
-    char *begin = NULL, *end = NULL;
+    char *begin = NULL;
     begin = strstr(s, name);
     if (begin)
     {
+        /*
         size_t span = getSpan(s, name, end_name);
         //printf("\n span: %lu\n", span);
         return getString(begin, size, sizeof(name), span);
+        */
+        return getStringFrom(s, name, end_name);
     }
     return NULL;
 }
@@ -130,7 +133,7 @@ char *findTrackPoints(char *s, size_t size)
 
 char *extractLatitude(char *s, size_t size)
 {
-    char *begin = NULL, *end = NULL;
+    char *begin = NULL;
     begin = strstr(s, lat);
     if (begin)
     {
