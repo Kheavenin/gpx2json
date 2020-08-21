@@ -38,12 +38,17 @@ static unsigned int getSpan(const char *s, const char *start, const char *end) {
     char *b = strstr(s, start);
     char *e = strstr(b + strlen(start), end);
 #if SPAN_LOGS
+    printf("\ninside getSpan addr: %p", (void *)b);
+    printf("\ninside getSpan addr: %p", (void *)e);
     printf("\ninside getSpan b: %s", b);
     printf("\ninside getSpan e: %s", e);
+
 #endif
-    if (b && e) {
-      unsigned int span = (e - b);
+    if (b != NULL && e != NULL) {
+      size_t t = (sizeof(e));
+      unsigned int span = ((e - b) - t);
 #if SPAN_LOGS
+      printf("Size of end: %u", t);
       printf("\n ----- Inside getSpan span: %u", span);
 #endif
       return span;
@@ -56,7 +61,7 @@ static unsigned int getSpan(const char *s, const char *start, const char *end) {
 char *getStringFrom(const char *s, const char *start, const char *end) {
   unsigned int span = getSpan(s, start, end);
   char *begin = strstr(s, start);
-  char *the_end = strstr(begin + strlen(start), end);
+//  char *the_end = strstr(begin + strlen(start), end);
 #if LOGS
   printf("\nInside getString ----- :Begin: %s", begin);
   printf("\nInside getString ----- :End: %s\nSpan: %u", end, span);
