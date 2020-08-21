@@ -8,4 +8,4 @@ gpx2json.o: gpx2json.c extractData.h
 	gcc -c gpx2json.c
 
 gpx2json: gpx2json.o extractData.o
-	gcc -g -Wall gpx2json.o extractData.o -o gpx2json
+	gcc gpx2json.o extractData.o -o gpx2json
