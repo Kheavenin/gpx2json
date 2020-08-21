@@ -1,5 +1,5 @@
 #gpx2json MakeFile
-
+#change gcc to clang
 
 extractData.o: extractData.h extractData.c
 	gcc -c  extractData.c
@@ -8,4 +8,4 @@ gpx2json.o: gpx2json.c extractData.h
 	gcc -c gpx2json.c
 
 gpx2json: gpx2json.o extractData.o
-	gcc gpx2json.o extractData.o -o gpx2json
+	gcc -g -Wall gpx2json.o extractData.o -o gpx2json

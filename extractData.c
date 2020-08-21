@@ -1,17 +1,20 @@
 #include "extractData.h"
 
+#define LOGS 1
+#define SPAN_LOGS LOGS
+
 char author[] = "<author>";
 char name[] = "<name>";
 char time[] = "<time>";
 char source[] = "<scr>";
 char type[] = "<type>";
 
-char trackingPoints[] = "<trkpt";
+const char trackingPoints[] = "<trkpt";
 const char *lat = "lat=\"";
 const char *lon = "lon=\"";
 const char *elevation = "<ele>";
 
-char *end_trackingPoints = "\">";
+const char *end_trackingPoints = "\">";
 const char *end_lat = "\"";
 const char *end_lon = "\"";
 
@@ -48,12 +51,16 @@ static unsigned int getSpan(const char *s, const char *start, const char *end)
     {
         char *b = strstr(s, start);
         char *e = strstr(b + strlen(start), end);
-        //        printf("\ninside getSpan b: %s",b);
-        //        printf("\ninside getSpan e: %s",e);
+#if SPAN_LOGS
+        printf("\ninside getSpan b: %s", b);
+        printf("\ninside getSpan e: %s", e);
+#endif
         if (b && e)
         {
             unsigned int span = (e - b);
-            //    printf("\n ----- Inside getSpan span: %u", span);
+#if SPAN_LOGS
+            printf("\n ----- Inside getSpan span: %u", span);
+#endif
             return span;
         }
         return 0;
@@ -66,13 +73,16 @@ char *getStringFrom(const char *s, const char *start, const char *end)
     unsigned int span = getSpan(s, start, end);
     char *begin = strstr(s, start);
     char *the_end = strstr(begin + strlen(start), end);
-    //    printf("\nInside getStrin ----- :Begin: %s", begin);
-    //    printf("\nInside getStrin ----- :End: %s\nSpan: %u", end, span);
-
+#if LOGS
+    printf("\nInside getString ----- :Begin: %s", begin);
+    printf("\nInside getString ----- :End: %s\nSpan: %u", end, span);
+#endif
     char *str = malloc((span - strlen(start)) * sizeof(char));
     strncpy(str, begin + strlen(start), span - strlen(start));
-    //    printf("\nInside getStrin -----%s", strncpy(str, begin + strlen(start), span - strlen(start)));
-    //    printf("\nInside getStrin ----- st:%s", str);
+#if LOGS
+    printf("\nInside getString -----: %s", strncpy(str, begin + strlen(start), span - strlen(start)));
+    printf("\nInside getString -----: %s: ", str);
+#endif
     return str;
 }
 

@@ -128,11 +128,11 @@ int main(int argc, char const *argv[])
 
                 char *tmpLat = extractLatitude(trackPoints, strlen(trackPoints)); //  NULL; //=
                 printf("\nExtracted latitude: %s", tmpLat);
-                free(tmpLat);
 
                 char *tmpLon = extractLongitude(trackPoints, strlen(trackPoints));
                 printf("\nExtracted longitude: %s", tmpLon);
                 free(tmpLon);
+                free(tmpLat);
             }
             free(trackPoints);
         }
