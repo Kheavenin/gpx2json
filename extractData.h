@@ -3,6 +3,7 @@
 #include <string.h>
 
 char *getStringFrom(const char *s, const char *start, const char *end);
+unsigned int getSpan(const char *s, const char *start, const char *end);
 
 char *findAuthor(char *s, size_t size);
 char *findTime(char *s, size_t size);

@@ -21,7 +21,7 @@ const char *end_lon = "\"";
 char end_name[] = "</name>";
 char end_time[] = "</time>";
 char end_type[] = "</type>";
-
+/*
 static char *getString(char *start, size_t size, size_t offset, size_t span) {
   if (start != NULL && size != 0 && offset != 0 && span != 0) {
     char *author;
@@ -32,8 +32,8 @@ static char *getString(char *start, size_t size, size_t offset, size_t span) {
   }
   return NULL;
 }
-
-static unsigned int getSpan(const char *s, const char *start, const char *end) {
+*/
+unsigned int getSpan(const char *s, const char *start, const char *end) {
   if (s != NULL && start != NULL && end != NULL) {
     char *b = strstr(s, start);
     char *e = strstr(b + strlen(start), end);
@@ -45,11 +45,9 @@ static unsigned int getSpan(const char *s, const char *start, const char *end) {
 
 #endif
     if (b != NULL && e != NULL) {
-      size_t t = (sizeof(e));
-      unsigned int span = ((e - b) - t);
+      unsigned int span = ((e - b) - (strlen(e) - 1));
 #if SPAN_LOGS
-      printf("Size of end: %u", t);
-      printf("\n ----- Inside getSpan span: %u", span);
+      printf("\nInside getSpan span: %u", span);
 #endif
       return span;
     }
