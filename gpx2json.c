@@ -86,7 +86,7 @@ int main(int argc, char const *argv[]) {
       char *pAuthor = findAuthor(line, strlen(line));
       if (pAuthor != NULL) {
         printf("\nFound: %s", pAuthor);
-        printf("\tIn line: %u", (psGpxParameters->readLines));
+        printf("\nIn line: %u", (psGpxParameters->readLines));
         psGpxParameters->gpxSource = pAuthor;
       }
       free(pAuthor);
