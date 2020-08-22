@@ -28,19 +28,65 @@ char *getString(const char *s, const char *start, const char *end) {
     char *ended = strstr(begin, end);
 
     if (begin != NULL && ended != NULL) {
-      printf("\nBegin of tracking section:%s\nEnd of tracking section:%s",
-             begin, ended);
-      printf("\nBegin length: %lu, End length: %lu", strlen(begin),
-             strlen(ended));
+      //   printf("\nBegin of tracking section:%s\nEnd of tracking section:%s",
+      //   begin, ended); printf("\nBegin length: %lu, End length: %lu",
+      //   strlen(begin),strlen(ended));
       unsigned int span =
           strlen(s) - strlen(start) - strlen(end); //- strlen(start) +1;
 
-      char *trkp = malloc(sizeof(char) * span);
-      memset(trkp, 0, strlen(trkp));
-      printf("\nPointer before copy: %p\nIts size: %lu", trkp, strlen(trkp));
-      strncpy(trkp, begin + strlen(start), span);
-      printf("\nPointer after copy : %s\nIts size: %lu", trkp, strlen(trkp));
-      return trkp;
+      char *str = malloc(sizeof(char) * span);
+      memset(str, 0, strlen(str));
+      //  printf("\nPointer before copy: %p\nIts size: %lu", str,strlen(str));
+      strncpy(str, begin + strlen(start), span);
+      str[span] = '\0';
+      //  printf("\nPointer after copy : %s\nIts size: %lu", str,strlen(str));
+      return str;
+    } else {
+      return NULL;
+    }
+  } else {
+    return NULL;
+  }
+}
+
+char *getLatitude(const char *s) {
+  if (s != NULL) {
+    char *begin = strstr(s, lat);
+    char *ended = strstr(strlen(lat) + begin, end_lat);
+
+    if (begin != NULL && ended != NULL) {
+      unsigned int span = ended - begin - strlen(lat); //- strlen(start) +1;
+      //  printf("\nlatitude span: %u", span);
+
+      char *latitude = malloc(sizeof(char) * span);
+      strncpy(latitude, begin + strlen(lat), span);
+      latitude[span] = '\0';
+      //  printf("\nPointer after copy : %s\nLat size: %lu",
+      //  latitude,strlen(latitude));
+      return latitude;
+    } else {
+      return NULL;
+    }
+  } else {
+    return NULL;
+  }
+}
+
+char *getLongitude(const char *s) {
+  if (s != NULL) {
+    char *begin = strstr(s, lon);
+    char *ended = strstr(strlen(lon) + begin, end_lon);
+
+    if (begin != NULL && ended != NULL) {
+      unsigned int span = ended - begin - strlen(lon); //- strlen(start) +1;
+      // printf("\nlongitude span: %u", span);
+
+      char *longitude = malloc(sizeof(char) * span);
+      strncpy(longitude, begin + strlen(lon), span);
+      longitude[span] = '\0';
+      //  printf("\nPointer after copy : %s\nLon size: %lu",
+      //  longitude,strlen(longitude));
+      return longitude;
     } else {
       return NULL;
     }
@@ -72,10 +118,9 @@ char *findTime(char *s, size_t size) {
 
   char *begin = NULL;
   begin = strstr(s, time);
-  if (begin) { /*
-                 size_t span = getSpan(s, time, end_time);
-                 return getString(begin, size, sizeof(time), span);*/
-    return getString(s, time, end_time);
+  if (begin) {
+    char *tmp = getString(s, time, end_time);
+    return tmp;
   }
   return NULL;
 }
@@ -117,7 +162,7 @@ char *extractLatitude(char *s, size_t size) {
   char *begin = NULL;
   begin = strstr(s, lat);
   if (begin != NULL) {
-    char *latitude = getString(s, lat, end_lat);
+    char *latitude = getLatitude(s);
     return latitude;
   }
 
@@ -128,7 +173,7 @@ char *extractLongitude(char *s, size_t size) {
   char *begin = NULL;
   begin = strstr(s, lon);
   if (begin != NULL) {
-    char *longitude = getString(s, lon, end_lon);
+    char *longitude = getLongitude(s);
     return longitude;
   }
 

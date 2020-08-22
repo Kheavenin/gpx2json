@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *getStringFrom(const char *s, const char *start, const char *end);
-unsigned int getSpan(const char *s, const char *start, const char *end);
+char *getString(const char *s, const char *start, const char *end);
+char *getLatitude(const char *s);
+char *getLongitude(const char *s);
 
 char *findAuthor(char *s, size_t size);
 char *findTime(char *s, size_t size);
