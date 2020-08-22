@@ -1,10 +1,10 @@
 #include "extractData.h"
 
-#define LOGS 1
+#define LOGS 0
 #define SPAN_LOGS LOGS
 
 char author[] = "<author>";
-char name[] = "<name>";
+const char *name = "<name>";
 char time[] = "<time>";
 char source[] = "<scr>";
 char type[] = "<type>";
@@ -18,21 +18,10 @@ const char *end_trackingPoints = "\">";
 const char *end_lat = "\"";
 const char *end_lon = "\"";
 
-char end_name[] = "</name>";
+const char *end_name = "</name>";
 char end_time[] = "</time>";
 char end_type[] = "</type>";
-/*
-static char *getString(char *start, size_t size, size_t offset, size_t span) {
-  if (start != NULL && size != 0 && offset != 0 && span != 0) {
-    char *author;
-    author = malloc(size);
-    strncpy(author, start + offset - 1, span);
 
-    return author;
-  }
-  return NULL;
-}
-*/
 unsigned int getSpan(const char *s, const char *start, const char *end) {
   if (s != NULL && start != NULL && end != NULL) {
     char *b = strstr(s, start);
@@ -40,8 +29,8 @@ unsigned int getSpan(const char *s, const char *start, const char *end) {
 #if SPAN_LOGS
     printf("\ninside getSpan addr: %p", (void *)b);
     printf("\ninside getSpan addr: %p", (void *)e);
-    printf("\ninside getSpan b: %s", b);
-    printf("\ninside getSpan e: %s", e);
+    //    printf("\ninside getSpan b: %s", b);
+    //    printf("\ninside getSpan e: %s", e);
 
 #endif
     if (b != NULL && e != NULL) {
@@ -58,17 +47,18 @@ unsigned int getSpan(const char *s, const char *start, const char *end) {
 
 char *getStringFrom(const char *s, const char *start, const char *end) {
   unsigned int span = getSpan(s, start, end);
+  if (span > 127) {
+    return NULL;
+  }
   char *begin = strstr(s, start);
 //  char *the_end = strstr(begin + strlen(start), end);
 #if LOGS
-  printf("\nInside getString ----- :Begin: %s", begin);
-  printf("\nInside getString ----- :End: %s\nSpan: %u", end, span);
+  printf("\nInside getString Begin: %s", begin);
+  printf("\nInside getString End: %s\nSpan: %u", end, span);
 #endif
-  char *str = malloc((span - strlen(start)) * sizeof(char));
-  strncpy(str, begin + strlen(start), span - strlen(start));
+  char *str = malloc((span + 1) * sizeof(char));
+  strncpy_s(str, ((span + 1) * sizeof(char)), begin + strlen(start), span);
 #if LOGS
-  printf("\nInside getString -----: %s",
-         strncpy(str, begin + strlen(start), span - strlen(start)));
   printf("\nInside getString -----: %s: ", str);
 #endif
   return str;

@@ -3,10 +3,12 @@
 
 extractData.o: extractData.h extractData.c
 #	gcc -c -Wall -fsyntax-only extractData.c
-	gcc -c -Wall  extractData.c
+	gcc -c -std=c11 -Wall  extractData.c
+#	gcc -c  -std=c99 -Wall  extractData.c
 gpx2json.o: gpx2json.c extractData.h
 #	gcc -c -Wall -fsyntax-only gpx2json.c
-	gcc -c -Wall  gpx2json.c
+	gcc -c -std=c11 -Wall  gpx2json.c
+#	gcc -c -std=c99 -Wall  gpx2json.c
 
 gpx2json: gpx2json.o extractData.o
 	gcc gpx2json.o extractData.o -o gpx2json
