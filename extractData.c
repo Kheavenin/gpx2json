@@ -9,63 +9,41 @@ char time[] = "<time>";
 char source[] = "<scr>";
 char type[] = "<type>";
 
-const char *trackingPoints = "<trkpt";
+const char *trackingPoints = "<trkpt ";
 const char *lat = "lat=\"";
 const char *lon = "lon=\"";
 const char *elevation = "<ele>";
 
 const char *end_trackingPoints = ">";
-const char *end_lat = "\" ";
+const char *end_lat = "\"";
 const char *end_lon = "\"";
 
 const char *end_name = "</name>";
 char end_time[] = "</time>";
 char end_type[] = "</type>";
 
-unsigned int getSpan(const char *s, const char *start, const char *end) {
-  if (s != NULL || start != NULL || end != NULL) {
-    char *b = strstr(s, start);
-    char *e = strstr(b + strlen(start), end);
-
-    if (b != NULL && e != NULL) {
-      unsigned int span = ((e - b) - (strlen(e) - 1));
-#if SPAN_LOGS
-      printf("\ninside getSpan addr: %p", (void *)b);
-      printf("\ninside getSpan addr: %p", (void *)e);
-      printf("\ninside getSpan b: %s", b);
-      printf("\ninside getSpan e: %s", e);
-      printf("\nInside getSpan span: %u", span);
-#endif
-      return span;
-    }
-    return 0;
-  }
-  return 0;
-}
-
-char *getStringFrom(const char *s, const char *start, const char *end) {
-  if (s != NULL || start != NULL || end != NULL) {
-    unsigned int span = getSpan(s, start, end);
-    if (span > 127) {
-      return NULL;
-    }
-
+char *getString(const char *s, const char *start, const char *end) {
+  if (s != NULL && start != NULL && end != NULL) {
     char *begin = strstr(s, start);
-    if (begin == NULL) {
-      return NULL;
-    } else {
-      char *str = malloc((span + 1) * sizeof(char));
-      if (str != NULL) {
-        strncpy(str, begin + strlen(start), span);
-      }
-#if LOGS
-      printf("\nInside getString Begin: %s", begin);
-      printf("\nInside getString End: %s\nSpan: %u", end, span);
-      printf("\nInside getString: %s: ", str);
-#endif
-      return str;
-    }
+    char *ended = strstr(begin, end);
 
+    if (begin != NULL && ended != NULL) {
+      printf("\nBegin of tracking section:%s\nEnd of tracking section:%s",
+             begin, ended);
+      printf("\nBegin length: %lu, End length: %lu", strlen(begin),
+             strlen(ended));
+      unsigned int span =
+          strlen(s) - strlen(start) - strlen(end); //- strlen(start) +1;
+
+      char *trkp = malloc(sizeof(char) * span);
+      memset(trkp, 0, strlen(trkp));
+      printf("\nPointer before copy: %p\nIts size: %lu", trkp, strlen(trkp));
+      strncpy(trkp, begin + strlen(start), span);
+      printf("\nPointer after copy : %s\nIts size: %lu", trkp, strlen(trkp));
+      return trkp;
+    } else {
+      return NULL;
+    }
   } else {
     return NULL;
   }
@@ -83,7 +61,7 @@ char *findAuthor(char *s, size_t size) {
     //printf("\n span: %lu\n", span);
     return getString(begin, size, sizeof(name), span);
     */
-    return getStringFrom(s, name, end_name);
+    return getString(s, name, end_name);
   }
   return NULL;
 }
@@ -97,7 +75,7 @@ char *findTime(char *s, size_t size) {
   if (begin) { /*
                  size_t span = getSpan(s, time, end_time);
                  return getString(begin, size, sizeof(time), span);*/
-    return getStringFrom(s, time, end_time);
+    return getString(s, time, end_time);
   }
   return NULL;
 }
@@ -111,7 +89,7 @@ char *findActivity(char *s, size_t size) {
   if (begin) { /*
                  size_t span = getSpan(s, type, end_type);
                  return getString(begin, size, sizeof(type), span);*/
-    return getStringFrom(s, type, end_type);
+    return getString(s, type, end_type);
   }
 
   return NULL;
@@ -129,7 +107,7 @@ char *findTrackPoints(char *s, size_t size) {
     size_t span = getSpan(s, trackingPoints, end_trackingPoints);
     return getString(begin, size, sizeof(trackingPoints), span);
     */
-    return getStringFrom(s, trackingPoints, end_trackingPoints);
+    return getString(s, trackingPoints, end_trackingPoints);
   }
 
   return NULL;
@@ -138,10 +116,9 @@ char *findTrackPoints(char *s, size_t size) {
 char *extractLatitude(char *s, size_t size) {
   char *begin = NULL;
   begin = strstr(s, lat);
-  if (begin) {
-    char *lattitude = malloc(size);
-    lattitude = getStringFrom(s, lat, end_lat);
-    return lattitude;
+  if (begin != NULL) {
+    char *latitude = getString(s, lat, end_lat);
+    return latitude;
   }
 
   return NULL;
@@ -150,8 +127,8 @@ char *extractLatitude(char *s, size_t size) {
 char *extractLongitude(char *s, size_t size) {
   char *begin = NULL;
   begin = strstr(s, lon);
-  if (begin) {
-    char *longitude = getStringFrom(s, lon, end_lon);
+  if (begin != NULL) {
+    char *longitude = getString(s, lon, end_lon);
     return longitude;
   }
 
