@@ -35,12 +35,16 @@ char *getString(const char *s, const char *start, const char *end) {
           strlen(s) - strlen(start) - strlen(end); //- strlen(start) +1;
 
       char *str = malloc(sizeof(char) * span);
-      memset(str, 0, strlen(str));
-      //  printf("\nPointer before copy: %p\nIts size: %lu", str,strlen(str));
-      strncpy(str, begin + strlen(start), span);
-      str[span] = '\0';
-      //  printf("\nPointer after copy : %s\nIts size: %lu", str,strlen(str));
-      return str;
+      if (str != NULL) {
+        memset(str, 0, strlen(str));
+        //  printf("\nPointer before copy: %p\nIts size: %lu", str,strlen(str));
+        strncpy(str, begin + strlen(start), span);
+        str[span] = '\0';
+        //  printf("\nPointer after copy : %s\nIts size: %lu", str,strlen(str));
+        return str;
+      } else {
+        return NULL;
+      }
     } else {
       return NULL;
     }
@@ -59,11 +63,16 @@ char *getLatitude(const char *s) {
       //  printf("\nlatitude span: %u", span);
 
       char *latitude = malloc(sizeof(char) * span);
-      strncpy(latitude, begin + strlen(lat), span);
-      latitude[span] = '\0';
-      //  printf("\nPointer after copy : %s\nLat size: %lu",
-      //  latitude,strlen(latitude));
-      return latitude;
+      if (latitude != NULL) {
+        strncpy(latitude, begin + strlen(lat), span);
+        latitude[span] = '\0';
+        //  printf("\nPointer after copy : %s\nLat size: %lu",
+        //  latitude,strlen(latitude));
+        return latitude;
+      } else {
+        return NULL;
+      }
+
     } else {
       return NULL;
     }
@@ -82,11 +91,15 @@ char *getLongitude(const char *s) {
       // printf("\nlongitude span: %u", span);
 
       char *longitude = malloc(sizeof(char) * span);
-      strncpy(longitude, begin + strlen(lon), span);
-      longitude[span] = '\0';
-      //  printf("\nPointer after copy : %s\nLon size: %lu",
-      //  longitude,strlen(longitude));
-      return longitude;
+      if (longitude != NULL) {
+        strncpy(longitude, begin + strlen(lon), span);
+        longitude[span] = '\0';
+        //  printf("\nPointer after copy : %s\nLon size: %lu",
+        //  longitude,strlen(longitude));
+        return longitude;
+      } else {
+        return NULL;
+      }
     } else {
       return NULL;
     }
