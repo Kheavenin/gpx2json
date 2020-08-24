@@ -62,3 +62,17 @@ char *getGpxReadLine(gpxReadStruct *psGpxRead) {
   }
   return NULL;
 }
+
+void setGpxReadTime(gpxReadStruct *psGpxRead, char *t) {
+  if (psGpxRead != NULL && t != NULL) {
+    size_t len = strlen(t);
+    if (len > 0) {
+      char *t = psGpxRead->readTime;
+      psGpxRead->readTime = NULL;
+      psGpxRead->readTime = realloc(t, (len + 1) * sizeof(char));
+      if (psGpxRead->readTime) {
+        strcpy(psGpxRead->readTime, t);
+      }
+    }
+  }
+}
