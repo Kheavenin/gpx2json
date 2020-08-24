@@ -14,8 +14,6 @@
 #define ERROR_MEMORY 0       // code for memory allocation
 #define ERROR_NULL_POINTER 0 // code for null pointer detection
 
-extern char *end_lat;
-
 /** Structers definitons */
 typedef struct {
   char gpxEncoding[GPX_PARAM_SIZE];
@@ -117,6 +115,7 @@ int main(int argc, char const *argv[]) {
 
         char *tmpLon = getLongitude(trackPoints);
         printf("\nExtracted longitude: %s", tmpLon);
+
         free(tmpLon);
         free(tmpLat);
       }
