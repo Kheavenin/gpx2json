@@ -165,25 +165,3 @@ char *getTrackPoint(char *s, size_t size) {
   }
   return NULL;
 }
-
-char *extractLatitude(char *s, size_t size) {
-  char *begin = NULL;
-  begin = strstr(s, lat);
-  if (begin != NULL) {
-    char *latitude = getLatitude(s);
-    return latitude;
-  }
-
-  return NULL;
-}
-
-char *extractLongitude(char *s, size_t size) {
-  char *begin = NULL;
-  begin = strstr(s, lon);
-  if (begin != NULL) {
-    char *longitude = getLongitude(s);
-    return longitude;
-  }
-
-  return NULL;
-}
