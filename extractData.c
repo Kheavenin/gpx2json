@@ -3,11 +3,11 @@
 #define LOGS 0
 #define SPAN_LOGS LOGS
 
-char author[] = "<author>";
+const char *author = "<author>";
 const char *name = "<name>";
-char time[] = "<time>";
-char source[] = "<scr>";
-char type[] = "<type>";
+const char *time = "<time>";
+const char *source = "<scr>";
+const char *type = "<type>";
 
 const char *trackingPoints = "<trkpt ";
 const char *lat = "lat=\"";
@@ -19,8 +19,8 @@ const char *end_lat = "\"";
 const char *end_lon = "\"";
 
 const char *end_name = "</name>";
-char end_time[] = "</time>";
-char end_type[] = "</type>";
+const char *end_time = "</time>";
+const char *end_type = "</type>";
 
 char *getString(const char *s, const char *start, const char *end) {
   if (s != NULL && start != NULL && end != NULL) {
