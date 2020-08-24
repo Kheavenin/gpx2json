@@ -73,3 +73,24 @@ void gpxReadDeinit(gpxReadStruct *psGpxRead) {
     realseGpxReadField(psGpxRead->gpxLongitude);
   }
 }
+
+void setGpxData(gpxReadStruct *psGpxRead, char *s) {
+  if (psGpxRead != NULL && s != NULL) {
+    size_t len = strlen(s);
+    if (len > 0) {
+      psGpxRead->gpxData = realloc(psGpxRead->gpxData, len * sizeof(char));
+      strcpy(psGpxRead->gpxData, s);
+    }
+  }
+}
+
+char *getGpxData(gpxReadStruct *psGpxRead) {
+  if (psGpxRead != NULL) {
+    if (psGpxRead->gpxData != NULL) {
+      // printf("%s", psGpxRead->gpxData);
+      return (psGpxRead->gpxData);
+    }
+    return NULL;
+  }
+  return NULL;
+}

@@ -25,3 +25,5 @@ typedef struct {
 
 gpxReadStruct *gpxReadInit(void);
 void gpxReadDeinit(gpxReadStruct *psGpxRead);
+void setGpxData(gpxReadStruct *psGpxRead, char *s);
+char *getGpxData(gpxReadStruct *psGpxRead);
