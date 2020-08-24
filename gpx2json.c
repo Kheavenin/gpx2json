@@ -34,7 +34,7 @@ int main(int argc, char const *argv[]) {
 
   /* Allocation memmory for structures */
   psGpxParameters = malloc(sizeof(gpxParamtersStruct));
-  psGpxRead = malloc(sizeof(gpxReadStruct));
+  psGpxRead = gpxReadInit();
 
   /* Check memory allocations */
   if (!((valiateMemoryPointer((void *)psGpxParameters)))) {

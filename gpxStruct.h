@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define DEAFULT_SIZE 64
+#define DEAFULT_SIZE_SHORT 16
 
 /** Structers definitons */
 typedef struct {

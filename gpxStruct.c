@@ -16,7 +16,7 @@ gpxReadStruct *gpxReadInit(void) {
   }
 
   psGpxRead->gpxData = malloc(sizeof(char) * DEAFULT_SIZE);
-  if (psGpxRead->gpxData == NUL) {
+  if (psGpxRead->gpxData == NULL) {
     // stderr logs
     free(psGpxRead->gpxTime);
     free(psGpxRead);
@@ -24,7 +24,7 @@ gpxReadStruct *gpxReadInit(void) {
   }
 
   psGpxRead->gpxElevation = malloc(sizeof(char) * DEAFULT_SIZE_SHORT);
-  if (psGpxRead->gpxElevation == NUL) {
+  if (psGpxRead->gpxElevation == NULL) {
     // stderr logs
     free(psGpxRead->gpxData);
     free(psGpxRead->gpxTime);
@@ -33,7 +33,7 @@ gpxReadStruct *gpxReadInit(void) {
   }
 
   psGpxRead->gpxLatitude = malloc(sizeof(char) * DEAFULT_SIZE_SHORT);
-  if (psGpxRead->gpxLatitude == NUL) {
+  if (psGpxRead->gpxLatitude == NULL) {
     // stderr logs
     free(psGpxRead->gpxElevation);
     free(psGpxRead->gpxData);
@@ -43,7 +43,7 @@ gpxReadStruct *gpxReadInit(void) {
   }
 
   psGpxRead->gpxLongitude = malloc(sizeof(char) * DEAFULT_SIZE_SHORT);
-  if (psGpxRead->gpxLongitude == NUL) {
+  if (psGpxRead->gpxLongitude == NULL) {
     // stderr logs
     free(psGpxRead->gpxLatitude);
     free(psGpxRead->gpxElevation);
