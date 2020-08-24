@@ -29,24 +29,16 @@ int main(int argc, char const *argv[]) {
   }
 
   /* Create structures and pointers to thier */
-  gpxParamtersStruct *psGpxParameters = NULL;
   gpxReadStruct *psGpxRead = NULL;
 
   /* Allocation memmory for structures */
-  psGpxParameters = malloc(sizeof(gpxParamtersStruct));
   psGpxRead = gpxReadInit();
 
   /* Check memory allocations */
-  if (!((valiateMemoryPointer((void *)psGpxParameters)))) {
-    fprintf(stderr, "ERROR_NULL_POINTER: psGpxParameters\n");
-    return ERROR_NULL_POINTER;
-  }
   if (!(valiateMemoryPointer((void *)psGpxRead))) {
     fprintf(stderr, "ERROR_NULL_POINTER: psGpxRead\n");
     return ERROR_NULL_POINTER;
   }
-
-  psGpxParameters->readLines = 0;
 
   FILE *inputFile = NULL;
   FILE *outputFile = NULL;
@@ -62,60 +54,76 @@ int main(int argc, char const *argv[]) {
     fprintf(stderr, "\nCannot create output file.");
   }
 
+  /* Start write to file */
+  bool flag = false;
+  fprintf(outputFile, "{\n\"Metadata\": {\n");
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
-    if ((psGpxParameters->readLines) < 21) {
+    if ((psGpxRead->readLines) < 21) {
       char *pAuthor = getAuthor(line, strlen(line));
       if (pAuthor != NULL) {
-        printf("\nFound: %s", pAuthor);
-        printf("\nIn line: %u", (psGpxParameters->readLines));
-        psGpxParameters->gpxSource = pAuthor;
+        //  printf("\nFound: %s", pAuthor);
+        fprintf(outputFile, "\t\"Author\": \"%s\",\n", pAuthor);
       }
       free(pAuthor);
 
       char *pTime = getTime(line, strlen(line));
       if (pTime != NULL) {
-        printf("\nFound time: %s", pTime);
-        psGpxRead->gpxTime = pTime;
+        //  printf("\nFound time: %s", pTime);
+        fprintf(outputFile, "\t\"StartTime\": \"%s\",\n", pTime);
       }
       free(pTime);
 
       char *pType = getActivity(line, strlen(line));
       if (pType != NULL) {
-        printf("\nFound activity type: %s", pType);
-        psGpxParameters->gpxActivityType = pType;
+        // printf("\nFound activity type: %s", pType);
+        fprintf(outputFile, "\t\"ActivityType\": \"%s\"\n", pType);
       }
       free(pType);
     }
 
-    if ((psGpxParameters->readLines) < 50) {
+    if ((psGpxRead->readLines) == 21) {
+      fprintf(outputFile, "}");                   // End of Metadeta
+      fprintf(outputFile, "\n\"Tracking\": [\n"); // Begin print tracking
+    }
+
+    if ((psGpxRead->readLines) < 50) {
       /* Find line wich tracking points */
+      char *pTime = getTime(line, strlen(line));
       char *trackPoints = getTrackPoint(line, strlen(line));
       if (trackPoints != NULL) {
-        printf("\nTrack point: %s", trackPoints);
-
         char *tmpLat = getLatitude(trackPoints);
-        printf("\nExtracted latitude: %s", tmpLat);
-
         char *tmpLon = getLongitude(trackPoints);
-        printf("\nExtracted longitude: %s", tmpLon);
 
+        if (flag) {
+          fprintf(outputFile, ",\n");
+        }
+
+        fprintf(
+            outputFile,
+            "\t{ \"time\": \"%s\", \"latitude\": \"%s\", \"longitude\": \"%s\" "
+            "}",
+            pTime, tmpLat, tmpLon);
+        flag = true;
+        //        printf("\nTrack point: %s", trackPoints);
+        //        printf("\nExtracted latitude: %s", tmpLat);
+        //        printf("\nExtracted longitude: %s", tmpLon);
         free(tmpLon);
         free(tmpLat);
       }
+      free(pTime);
       free(trackPoints);
     }
-    psGpxParameters->readLines += 1;
+    psGpxRead->readLines += 1;
     // printf("Read lines: %lu", (psGpxParameters->readLines));
   }
-
+  fprintf(outputFile, "\t\n]");
+  fprintf(outputFile, "\n}");
   /* Deallocation */
   unsigned int inputCloseStatus = fclose(inputFile);
   unsigned int outputCloseStatus = fclose(outputFile);
 
-  // free(psGpxRead);
-  void gpxReadDeinit(psGpxRead);
-  free(psGpxParameters);
+  gpxReadDeinit(psGpxRead);
 
   /* code */
   return 0;

@@ -16,14 +16,20 @@ gpxReadStruct *gpxReadInit(void) {
     // stderr log
     return NULL;
   }
-  psGpxRead->gpxTime = malloc(sizeof(char) * DEAFULT_SIZE);
+
+  psGpxRead->gpxEncoding = malloc(sizeof(char) * DEFAULT_SIZE_SHORT);
+  psGpxRead->gpxVer = malloc(sizeof(char) * DEFAULT_SIZE_SHORT);
+  psGpxRead->gpxSource = malloc(sizeof(char) * DEFAULT_SIZE_SHORT);
+  psGpxRead->gpxActivityType = malloc(sizeof(char) * DEFAULT_SIZE_SHORT);
+
+  psGpxRead->gpxTime = malloc(sizeof(char) * DEFAULT_SIZE);
   if (psGpxRead->gpxTime == NULL) {
     // stderr logs
     free(psGpxRead);
     return NULL;
   }
 
-  psGpxRead->gpxData = malloc(sizeof(char) * DEAFULT_SIZE);
+  psGpxRead->gpxData = malloc(sizeof(char) * DEFAULT_SIZE);
   if (psGpxRead->gpxData == NULL) {
     // stderr logs
     free(psGpxRead->gpxTime);
@@ -31,7 +37,7 @@ gpxReadStruct *gpxReadInit(void) {
     return NULL;
   }
 
-  psGpxRead->gpxElevation = malloc(sizeof(char) * DEAFULT_SIZE_SHORT);
+  psGpxRead->gpxElevation = malloc(sizeof(char) * DEFAULT_SIZE_SHORT);
   if (psGpxRead->gpxElevation == NULL) {
     // stderr logs
     free(psGpxRead->gpxData);
@@ -40,7 +46,7 @@ gpxReadStruct *gpxReadInit(void) {
     return NULL;
   }
 
-  psGpxRead->gpxLatitude = malloc(sizeof(char) * DEAFULT_SIZE_SHORT);
+  psGpxRead->gpxLatitude = malloc(sizeof(char) * DEFAULT_SIZE_SHORT);
   if (psGpxRead->gpxLatitude == NULL) {
     // stderr logs
     free(psGpxRead->gpxElevation);
@@ -50,7 +56,7 @@ gpxReadStruct *gpxReadInit(void) {
     return NULL;
   }
 
-  psGpxRead->gpxLongitude = malloc(sizeof(char) * DEAFULT_SIZE_SHORT);
+  psGpxRead->gpxLongitude = malloc(sizeof(char) * DEFAULT_SIZE_SHORT);
   if (psGpxRead->gpxLongitude == NULL) {
     // stderr logs
     free(psGpxRead->gpxLatitude);
@@ -66,20 +72,22 @@ gpxReadStruct *gpxReadInit(void) {
 
 void gpxReadDeinit(gpxReadStruct *psGpxRead) {
   if (psGpxRead != NULL) {
-    realseGpxReadField(psGpxRead->gpxData);
-    realseGpxReadField(psGpxRead->gpxTime);
-    realseGpxReadField(psGpxRead->gpxElevation);
+
     realseGpxReadField(psGpxRead->gpxLatitude);
     realseGpxReadField(psGpxRead->gpxLongitude);
+    realseGpxReadField(psGpxRead->gpxElevation);
+    realseGpxReadField(psGpxRead->gpxData);
+    realseGpxReadField(psGpxRead->gpxTime);
+    psGpxRead->readLines = 0;
   }
 }
 
-void setGpxData(gpxReadStruct *psGpxRead, char *s) {
-  if (psGpxRead != NULL && s != NULL) {
-    size_t len = strlen(s);
+void setGpxData(gpxReadStruct *psGpxRead, char *data) {
+  if (psGpxRead != NULL && data != NULL) {
+    size_t len = strlen(data);
     if (len > 0) {
       psGpxRead->gpxData = realloc(psGpxRead->gpxData, len * sizeof(char));
-      strcpy(psGpxRead->gpxData, s);
+      strcpy(psGpxRead->gpxData, data);
     }
   }
 }
@@ -89,6 +97,49 @@ char *getGpxData(gpxReadStruct *psGpxRead) {
     if (psGpxRead->gpxData != NULL) {
       // printf("%s", psGpxRead->gpxData);
       return (psGpxRead->gpxData);
+    }
+    return NULL;
+  }
+  return NULL;
+}
+
+void setGpxTime(gpxReadStruct *psGpxRead, char *time) {
+  if (psGpxRead != NULL && time != NULL) {
+    size_t len = strlen(time);
+    if (len > 0) {
+      psGpxRead->gpxTime = realloc(psGpxRead->gpxTime, len * sizeof(char));
+      strcpy(psGpxRead->gpxTime, time);
+    }
+  }
+}
+
+char *getGpxTime(gpxReadStruct *psGpxRead) {
+  if (psGpxRead != NULL) {
+    if (psGpxRead->gpxTime != NULL) {
+      // printf("%s", psGpxRead->gpxData);
+      return (psGpxRead->gpxTime);
+    }
+    return NULL;
+  }
+  return NULL;
+}
+
+void setGpxLatitude(gpxReadStruct *psGpxRead, char *lat) {
+  if (psGpxRead != NULL && lat != NULL) {
+    size_t len = strlen(lat);
+    if (len > 0) {
+      psGpxRead->gpxLatitude =
+          realloc(psGpxRead->gpxLatitude, len * sizeof(char));
+      strcpy(psGpxRead->gpxLatitude, lat);
+    }
+  }
+}
+
+char *getGpxLatitude(gpxReadStruct *psGpxRead) {
+  if (psGpxRead != NULL) {
+    if (psGpxRead->gpxLatitude != NULL) {
+      // printf("%s", psGpxRead->gpxData);
+      return (psGpxRead->gpxLatitude);
     }
     return NULL;
   }

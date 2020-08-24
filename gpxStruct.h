@@ -3,27 +3,33 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DEAFULT_SIZE 64
-#define DEAFULT_SIZE_SHORT 16
+#define DEFAULT_SIZE 64
+#define DEFAULT_SIZE_SHORT 16
 
 /** Structers definitons */
+typedef struct {
+
+} gpxParamtersStruct;
+
 typedef struct {
   char *gpxEncoding;
   char *gpxVer;
   char *gpxSource;
   char *gpxActivityType;
-  unsigned int readLines;
-} gpxParamtersStruct;
 
-typedef struct {
   char *gpxLatitude;
   char *gpxLongitude;
   char *gpxElevation;
   char *gpxData;
   char *gpxTime;
+  unsigned int readLines;
 } gpxReadStruct;
 
 gpxReadStruct *gpxReadInit(void);
 void gpxReadDeinit(gpxReadStruct *psGpxRead);
-void setGpxData(gpxReadStruct *psGpxRead, char *s);
+void setGpxData(gpxReadStruct *psGpxRead, char *data);
 char *getGpxData(gpxReadStruct *psGpxRead);
+void setGpxTime(gpxReadStruct *psGpxRead, char *time);
+char *getGpxTime(gpxReadStruct *psGpxRead);
+void setGpxLatitude(gpxReadStruct *psGpxRead, char *lat);
+char *getGpxLatitude(gpxReadStruct *psGpxRead);
