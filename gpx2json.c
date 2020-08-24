@@ -29,12 +29,10 @@ int main(int argc, char const *argv[]) {
   }
 
   /* Create structures and pointers to thier */
-  gpxReadStruct *psGpxRead = NULL;
-
   /* Allocation memmory for structures */
-  psGpxRead = gpxReadInit();
-
   /* Check memory allocations */
+  gpxReadStruct *psGpxRead = NULL;
+  psGpxRead = gpxReadInit();
   if (!(valiateMemoryPointer((void *)psGpxRead))) {
     fprintf(stderr, "ERROR_NULL_POINTER: psGpxRead\n");
     return ERROR_NULL_POINTER;
@@ -59,7 +57,7 @@ int main(int argc, char const *argv[]) {
   fprintf(outputFile, "{\n\"Metadata\": {\n");
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
-    if ((psGpxRead->readLines) < 21) {
+    if ((psGpxRead->readLinesCounter) < 21) {
       char *pAuthor = getAuthor(line, strlen(line));
       if (pAuthor != NULL) {
         //  printf("\nFound: %s", pAuthor);
@@ -82,12 +80,12 @@ int main(int argc, char const *argv[]) {
       free(pType);
     }
 
-    if ((psGpxRead->readLines) == 21) {
-      fprintf(outputFile, "}");                   // End of Metadeta
+    if ((psGpxRead->readLinesCounter) == 21) {
+      fprintf(outputFile, "},");                  // End of Metadeta
       fprintf(outputFile, "\n\"Tracking\": [\n"); // Begin print tracking
     }
 
-    if ((psGpxRead->readLines) < 50) {
+    if ((psGpxRead->readLinesCounter) < 50) {
       /* Find line wich tracking points */
       char *pTime = getTime(line, strlen(line));
       char *trackPoints = getTrackPoint(line, strlen(line));
@@ -114,8 +112,8 @@ int main(int argc, char const *argv[]) {
       free(pTime);
       free(trackPoints);
     }
-    psGpxRead->readLines += 1;
-    // printf("Read lines: %lu", (psGpxParameters->readLines));
+    psGpxRead->readLinesCounter += 1;
+    // printf("Read lines: %lu", (psGpxParameters->readLinesCounter));
   }
   fprintf(outputFile, "\t\n]");
   fprintf(outputFile, "\n}");
