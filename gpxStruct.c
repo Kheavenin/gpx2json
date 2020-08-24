@@ -33,3 +33,25 @@ void gpxReadDeinit(gpxReadStruct *psGpxRead) {
     free(psGpxRead);
   }
 }
+
+void setGpxReadLine(gpxReadStruct *psGpxRead, char *s) {
+  if (psGpxRead != NULL && s != NULL) {
+    size_t len = strlen(s);
+    if (len > 0) {
+      char *t = psGpxRead->readLine;
+      psGpxRead->readLine = NULL;
+      psGpxRead->readLine = realloc(t, (len + 1) * sizeof(char));
+      if (psGpxRead->readLine) {
+        strcpy(psGpxRead->readLine, s);
+      }
+    }
+  }
+}
+
+char *getGpxReadLine(gpxReadStruct *psGpxRead) {
+  if (psGpxRead != NULL && (psGpxRead->readLine != NULL)) {
+
+    return psGpxRead->readLine;
+  }
+  return NULL;
+}

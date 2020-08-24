@@ -57,8 +57,10 @@ int main(int argc, char const *argv[]) {
   fprintf(outputFile, "{\n\"Metadata\": {\n");
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
+    setGpxReadLine(psGpxRead, line);
     if ((psGpxRead->readLinesCounter) < 21) {
-      char *pAuthor = getAuthor(line, strlen(line));
+      char *pAuthor =
+          getAuthor(psGpxRead->readLine, strlen(psGpxRead->readLine));
       if (pAuthor != NULL) {
         //  printf("\nFound: %s", pAuthor);
         fprintf(outputFile, "\t\"Author\": \"%s\",\n", pAuthor);

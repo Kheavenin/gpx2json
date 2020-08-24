@@ -12,3 +12,4 @@ typedef struct {
 
 gpxReadStruct *gpxReadInit(void);
 void gpxReadDeinit(gpxReadStruct *psGpxRead);
+void setGpxReadLine(gpxReadStruct *psGpxRead, char *s);
