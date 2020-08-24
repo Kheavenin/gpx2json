@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "extractData.h"
+#include "gpxStruct.h"
 
 #define GPX_PARAM_SIZE 8
 #define GPX_SOURCE_SIZE 64
@@ -13,23 +14,6 @@
 #define ERROR_DATA 0
 #define ERROR_MEMORY 0       // code for memory allocation
 #define ERROR_NULL_POINTER 0 // code for null pointer detection
-
-/** Structers definitons */
-typedef struct {
-  char gpxEncoding[GPX_PARAM_SIZE];
-  char gpxVer[GPX_PARAM_SIZE];
-  char *gpxSource;
-  char *gpxActivityType;
-  unsigned int readLines;
-} gpxParamtersStruct;
-
-typedef struct {
-  char gpxLatitude[GPX_ARRAY_SIZE];
-  char gpxLongitude[GPX_ARRAY_SIZE];
-  char gpxElevation[GPX_ARRAY_SIZE];
-  char *gpxData;
-  char *gpxTime;
-} gpxReadStruct;
 
 char line[128];
 
