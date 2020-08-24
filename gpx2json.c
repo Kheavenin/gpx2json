@@ -113,7 +113,8 @@ int main(int argc, char const *argv[]) {
   unsigned int inputCloseStatus = fclose(inputFile);
   unsigned int outputCloseStatus = fclose(outputFile);
 
-  free(psGpxRead);
+  // free(psGpxRead);
+  void gpxReadDeinit(psGpxRead);
   free(psGpxParameters);
 
   /* code */

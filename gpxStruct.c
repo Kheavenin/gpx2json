@@ -1,5 +1,13 @@
 #include "gpxStruct.h"
 
+static int realseGpxReadField(char *s) {
+  if (s != NULL) {
+    free(s);
+    return true;
+  }
+  return false;
+}
+
 gpxReadStruct *gpxReadInit(void) {
   gpxReadStruct *psGpxRead = NULL;
   psGpxRead = malloc(sizeof(gpxReadStruct));
@@ -54,4 +62,14 @@ gpxReadStruct *gpxReadInit(void) {
   }
 
   return psGpxRead;
+}
+
+void gpxReadDeinit(gpxReadStruct *psGpxRead) {
+  if (psGpxRead != NULL) {
+    realseGpxReadField(psGpxRead->gpxData);
+    realseGpxReadField(psGpxRead->gpxTime);
+    realseGpxReadField(psGpxRead->gpxElevation);
+    realseGpxReadField(psGpxRead->gpxLatitude);
+    realseGpxReadField(psGpxRead->gpxLongitude);
+  }
 }

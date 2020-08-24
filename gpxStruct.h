@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,3 +24,4 @@ typedef struct {
 } gpxReadStruct;
 
 gpxReadStruct *gpxReadInit(void);
+void gpxReadDeinit(gpxReadStruct *psGpxRead);
