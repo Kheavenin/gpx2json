@@ -108,7 +108,7 @@ char *getLongitude(const char *s) {
   }
 }
 
-char *findAuthor(char *s, size_t size) {
+char *getAuthor(char *s, size_t size) {
   if (s == NULL || size < 1)
     return NULL;
 
@@ -125,7 +125,7 @@ char *findAuthor(char *s, size_t size) {
   return NULL;
 }
 
-char *findTime(char *s, size_t size) {
+char *getTime(char *s, size_t size) {
   if (s == NULL || size < 1)
     return NULL;
 
@@ -138,7 +138,7 @@ char *findTime(char *s, size_t size) {
   return NULL;
 }
 
-char *findActivity(char *s, size_t size) {
+char *getActivity(char *s, size_t size) {
   if (s == NULL || size < 1)
     return NULL;
 
@@ -153,7 +153,7 @@ char *findActivity(char *s, size_t size) {
   return NULL;
 }
 
-char *findTrackPoints(char *s, size_t size) {
+char *getTrackPoint(char *s, size_t size) {
   if (s == NULL || size < 1)
     return NULL;
 
@@ -161,13 +161,8 @@ char *findTrackPoints(char *s, size_t size) {
   begin = strstr(s, trackingPoints);
 
   if (begin) {
-    /*
-    size_t span = getSpan(s, trackingPoints, end_trackingPoints);
-    return getString(begin, size, sizeof(trackingPoints), span);
-    */
     return getString(s, trackingPoints, end_trackingPoints);
   }
-
   return NULL;
 }
 

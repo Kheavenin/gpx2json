@@ -83,7 +83,7 @@ int main(int argc, char const *argv[]) {
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
     if ((psGpxParameters->readLines) < 21) {
-      char *pAuthor = findAuthor(line, strlen(line));
+      char *pAuthor = getAuthor(line, strlen(line));
       if (pAuthor != NULL) {
         printf("\nFound: %s", pAuthor);
         printf("\nIn line: %u", (psGpxParameters->readLines));
@@ -91,14 +91,14 @@ int main(int argc, char const *argv[]) {
       }
       free(pAuthor);
 
-      char *pTime = findTime(line, strlen(line));
+      char *pTime = getTime(line, strlen(line));
       if (pTime != NULL) {
         printf("\nFound time: %s", pTime);
         psGpxRead->gpxTime = pTime;
       }
       free(pTime);
 
-      char *pType = findActivity(line, strlen(line));
+      char *pType = getActivity(line, strlen(line));
       if (pType != NULL) {
         printf("\nFound activity type: %s", pType);
         psGpxParameters->gpxActivityType = pType;
@@ -108,15 +108,14 @@ int main(int argc, char const *argv[]) {
 
     if ((psGpxParameters->readLines) < 50) {
       /* Find line wich tracking points */
-      char *trackPoints = findTrackPoints(line, strlen(line));
+      char *trackPoints = getTrackPoint(line, strlen(line));
       if (trackPoints != NULL) {
         printf("\nTrack point: %s", trackPoints);
 
-        char *tmpLat =
-            extractLatitude(trackPoints, strlen(trackPoints)); //  NULL; //=
+        char *tmpLat = getLatitude(trackPoints);
         printf("\nExtracted latitude: %s", tmpLat);
 
-        char *tmpLon = extractLongitude(trackPoints, strlen(trackPoints));
+        char *tmpLon = getLongitude(trackPoints);
         printf("\nExtracted longitude: %s", tmpLon);
         free(tmpLon);
         free(tmpLat);
