@@ -67,14 +67,15 @@ int main(int argc, char const *argv[]) {
       }
       free(pAuthor);
 
-      char *pTime = getTime(line, strlen(line));
+      char *pTime = getTime(psGpxRead->readLine, strlen(psGpxRead->readLine));
       if (pTime != NULL) {
         //  printf("\nFound time: %s", pTime);
         fprintf(outputFile, "\t\"StartTime\": \"%s\",\n", pTime);
       }
       free(pTime);
 
-      char *pType = getActivity(line, strlen(line));
+      char *pType =
+          getActivity(psGpxRead->readLine, strlen(psGpxRead->readLine));
       if (pType != NULL) {
         // printf("\nFound activity type: %s", pType);
         fprintf(outputFile, "\t\"ActivityType\": \"%s\"\n", pType);
