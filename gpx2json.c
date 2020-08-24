@@ -90,7 +90,8 @@ int main(int argc, char const *argv[]) {
 
     if ((psGpxRead->readLinesCounter) < 50) {
       /* Find line wich tracking points */
-      char *pTime = getTime(line, strlen(line));
+      char *pTime = getTime(psGpxRead->readLine, strlen(psGpxRead->readLine));
+      printf("pTime: %s ", pTime);
       char *trackPoints = getTrackPoint(line, strlen(line));
       if (trackPoints != NULL) {
         char *tmpLat = getLatitude(trackPoints);
@@ -99,20 +100,18 @@ int main(int argc, char const *argv[]) {
         if (flag) {
           fprintf(outputFile, ",\n");
         }
-
-        fprintf(
-            outputFile,
-            "\t{ \"time\": \"%s\", \"latitude\": \"%s\", \"longitude\": \"%s\" "
-            "}",
-            pTime, tmpLat, tmpLon);
+        // \"time\": \"%s\",
+        fprintf(outputFile,
+                "\t{ { \"latitude\": \"%s\", \"longitude\": \"%s\"} }", tmpLat,
+                tmpLon);
         flag = true;
         //        printf("\nTrack point: %s", trackPoints);
         //        printf("\nExtracted latitude: %s", tmpLat);
         //        printf("\nExtracted longitude: %s", tmpLon);
         free(tmpLon);
         free(tmpLat);
+        free(pTime);
       }
-      free(pTime);
       free(trackPoints);
     }
     psGpxRead->readLinesCounter += 1;

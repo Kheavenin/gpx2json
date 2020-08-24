@@ -7,6 +7,10 @@
 			"label": "tasks",
 			"type": "shell",
 			"command": "make",
+			"args": [
+				"trace.gpx",
+				"trace.json"
+			],
 			"group": {
 				"kind": "build",
 				"isDefault": true

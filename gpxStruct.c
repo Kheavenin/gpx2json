@@ -21,6 +21,12 @@ gpxReadStruct *gpxReadInit(void) {
     free(psGpxRead);
     return NULL;
   }
+  psGpxRead->readTime = malloc(sizeof(char) * DEFAULT_SIZE);
+  if (psGpxRead->readTime == NULL) {
+    free(psGpxRead->readLine);
+    free(psGpxRead);
+    return NULL;
+  }
 
   psGpxRead->readLinesCounter = 0;
   return psGpxRead;
@@ -28,6 +34,7 @@ gpxReadStruct *gpxReadInit(void) {
 
 void gpxReadDeinit(gpxReadStruct *psGpxRead) {
   if (psGpxRead != NULL) {
+    realseGpxReadField(psGpxRead->readTime);
     realseGpxReadField(psGpxRead->readLine);
     psGpxRead->readLinesCounter = 0;
     free(psGpxRead);

@@ -5,13 +5,13 @@
 	"ActivityType": "RUNNING"
 },
 "Tracking": [
-	{ "time": "(null)", "latitude": "51.117707", "longitude": "17.051369" },
-	{ "time": "(null)", "latitude": "51.117707", "longitude": "17.051369" },
-	{ "time": "(null)", "latitude": "51.117768", "longitude": "17.051366" },
-	{ "time": "(null)", "latitude": "51.117796", "longitude": "17.051288" },
-	{ "time": "(null)", "latitude": "51.117822", "longitude": "17.051213" },
-	{ "time": "(null)", "latitude": "51.120579", "longitude": "17.051301" },
-	{ "time": "(null)", "latitude": "51.120619", "longitude": "17.051364" },
-	{ "time": "(null)", "latitude": "51.120637", "longitude": "17.051392" }	
+	{ "latitude": "51.117707", "longitude": "17.051369" },
+	{ "latitude": "51.117707", "longitude": "17.051369" },
+	{ "latitude": "51.117768", "longitude": "17.051366" },
+	{ "latitude": "51.117796", "longitude": "17.051288" },
+	{ "latitude": "51.117822", "longitude": "17.051213" },
+	{ "latitude": "51.120579", "longitude": "17.051301" },
+	{ "latitude": "51.120619", "longitude": "17.051364" },
+	{ "latitude": "51.120637", "longitude": "17.051392" }	
 ]
 }
