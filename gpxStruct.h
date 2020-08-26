@@ -6,7 +6,6 @@
 #define DEFAULT_SIZE 128
 /** Structers definitons */
 typedef struct {
-  char *readTime;
   char *readLine;
   unsigned int readLinesCounter;
 } gpxReadStruct;
