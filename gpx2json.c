@@ -89,9 +89,8 @@ int main(int argc, char const *argv[]) {
         /* Get get latitude, longitude and print coordinates */
         char *tmpLat = getLatitude(trackPoints);
         char *tmpLon = getLongitude(trackPoints);
-        fprintf(outputFile, "\n{\n\t\"geometry\": {\n"); // Begin print tracking
-        fprintf(outputFile, "\t\"type:\" \"Point\",\n  ");
-        fprintf(outputFile, "\t\"coordinates\": [ %s, %s", tmpLat, tmpLon);
+        setReadLatitudec(psGpxRead, tmpLat);
+        setReadLongitude(psGpxRead, tmpLon);
 
         free(tmpLon);
         free(tmpLat);
@@ -101,14 +100,18 @@ int main(int argc, char const *argv[]) {
       /* Get elevation and add to coordinates */
       char *pElevation = getElevation(psGpxRead->readLine);
       if (pElevation != NULL) {
-        fprintf(outputFile, ", %s ]", pElevation);
-        fprintf(outputFile, "\t\t\n},");
-      }
-      if (pElevation == NULL) {
-        //  fprintf(outputFile, " ]");
-        //  fprintf(outputFile, "\t\t\n},");
+        setReadElevation(psGpxRead, pElevation);
       }
       free(pElevation);
+
+      if (psGpxRead->readLatitude != NULL && psGpxRead->readLongitude != NULL) {
+        fprintf(outputFile,
+                "\n\t{\n\t\"geometry\": {"); // Begin print tracking
+        fprintf(outputFile, "\n\t\t\"type:\" \"Point\",");
+        fprintf(outputFile, "\n\t\t\"coordinates\": ");
+        fprintf(outputFile, "%s, %s, %s", getReadLatitude(psGpxRead),
+                getReadLongitude(psGpxRead), getReadElevation(psGpxRead));
+      }
 
       /* Get time and print properties print */
       char *pTime = getTime(psGpxRead->readLine);

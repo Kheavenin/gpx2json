@@ -19,3 +19,11 @@ gpxReadStruct *gpxReadInit(void);
 void gpxReadDeinit(gpxReadStruct *psGpxRead);
 void setGpxReadLine(gpxReadStruct *psGpxRead, char *s);
 char *getGpxReadLine(gpxReadStruct *psGpxRead);
+
+void setReadLatitudec(gpxReadStruct *psGpxRead, char *s);
+void setReadLongitude(gpxReadStruct *psGpxRead, char *s);
+void setReadElevation(gpxReadStruct *psGpxRead, char *s);
+
+char *getReadLatitude(gpxReadStruct *psGpxRead);
+char *getReadLongitude(gpxReadStruct *psGpxRead);
+char *getReadElevation(gpxReadStruct *psGpxRead);
