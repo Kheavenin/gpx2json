@@ -10,3 +10,5 @@ char *getAuthor(char *s, size_t size);
 char *getTime(char *s, size_t size);
 char *getActivity(char *s, size_t size);
 char *getTrackPoint(char *s, size_t size);
+
+char *getElevation(char *s);

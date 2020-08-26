@@ -17,6 +17,7 @@ const char *elevation = "<ele>";
 const char *end_trackingPoints = ">";
 const char *end_lat = "\"";
 const char *end_lon = "\"";
+const char *end_elevation = "</ele>";
 
 const char *end_name = "</name>";
 const char *end_time = "</time>";
@@ -162,6 +163,18 @@ char *getTrackPoint(char *s, size_t size) {
 
   if (begin) {
     return getString(s, trackingPoints, end_trackingPoints);
+  }
+  return NULL;
+}
+
+char *getElevation(char *s) {
+  if (s == NULL)
+    return NULL;
+
+  char *begin = NULL;
+  begin = strstr(s, elevation);
+  if (begin) {
+    return getString(s, elevation, end_elevation);
   }
   return NULL;
 }
