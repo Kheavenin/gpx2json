@@ -109,8 +109,8 @@ char *getLongitude(const char *s) {
   }
 }
 
-char *getAuthor(char *s, size_t size) {
-  if (s == NULL || size < 1)
+char *getAuthor(char *s) {
+  if (s == NULL)
     return NULL;
 
   char *begin = NULL;
@@ -126,8 +126,8 @@ char *getAuthor(char *s, size_t size) {
   return NULL;
 }
 
-char *getTime(char *s, size_t size) {
-  if (s == NULL || size < 1)
+char *getTime(char *s) {
+  if (s == NULL)
     return NULL;
 
   char *begin = NULL;
@@ -139,8 +139,8 @@ char *getTime(char *s, size_t size) {
   return NULL;
 }
 
-char *getActivity(char *s, size_t size) {
-  if (s == NULL || size < 1)
+char *getActivity(char *s) {
+  if (s == NULL)
     return NULL;
 
   char *begin = NULL;
@@ -154,8 +154,8 @@ char *getActivity(char *s, size_t size) {
   return NULL;
 }
 
-char *getTrackPoint(char *s, size_t size) {
-  if (s == NULL || size < 1)
+char *getTrackPoint(char *s) {
+  if (s == NULL)
     return NULL;
 
   char *begin = NULL;

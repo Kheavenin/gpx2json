@@ -56,23 +56,20 @@ int main(int argc, char const *argv[]) {
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
     setGpxReadLine(psGpxRead, line);
-    // printf("\nPointer: %p, content: %s", psGpxRead->readData[0]);
     if ((psGpxRead->readLinesCounter) < 21) {
-      char *pAuthor =
-          getAuthor(psGpxRead->readLine, strlen(psGpxRead->readLine));
+      char *pAuthor = getAuthor(psGpxRead->readLine);
       if (pAuthor != NULL) {
         fprintf(outputFile, "\t\"Author\": \"%s\",\n", pAuthor);
       }
       free(pAuthor);
 
-      char *pTime = getTime(psGpxRead->readLine, strlen(psGpxRead->readLine));
+      char *pTime = getTime(psGpxRead->readLine);
       if (pTime != NULL) {
         fprintf(outputFile, "\t\"StartTime\": \"%s\",\n", pTime);
       }
       free(pTime);
 
-      char *pType =
-          getActivity(psGpxRead->readLine, strlen(psGpxRead->readLine));
+      char *pType = getActivity(psGpxRead->readLine);
       if (pType != NULL) {
         fprintf(outputFile, "\t\"ActivityType\": \"%s\"\n", pType);
         fprintf(outputFile, "},"); // End of Metadeta
@@ -87,8 +84,7 @@ int main(int argc, char const *argv[]) {
         (psGpxRead->readLinesCounter) > 20) {
 
       /* Find line wich tracking points */
-      char *trackPoints =
-          getTrackPoint(psGpxRead->readLine, strlen(psGpxRead->readLine));
+      char *trackPoints = getTrackPoint(psGpxRead->readLine);
       if (trackPoints != NULL) {
         /* Get get latitude, longitude and print coordinates */
         char *tmpLat = getLatitude(trackPoints);
@@ -115,7 +111,7 @@ int main(int argc, char const *argv[]) {
       free(pElevation);
 
       /* Get time and print properties print */
-      char *pTime = getTime(psGpxRead->readLine, strlen(psGpxRead->readLine));
+      char *pTime = getTime(psGpxRead->readLine);
       if (pTime != NULL) {
         fprintf(outputFile, "\n\t\t\t\"properties:\" {\n");
         fprintf(outputFile, "\t\t\"time\": \"%s\" \n}\n},", pTime);
