@@ -1,13 +1,5 @@
 #include "gpxStruct.h"
 
-static int realseGpxReadField(char *s) {
-  if (s != NULL) {
-    free(s);
-    return true;
-  }
-  return false;
-}
-
 gpxReadStruct *gpxReadInit(void) {
   gpxReadStruct *psGpxRead = NULL;
   psGpxRead = malloc(sizeof(gpxReadStruct));
@@ -16,10 +8,31 @@ gpxReadStruct *gpxReadInit(void) {
     // stderr log
     return NULL;
   }
-  psGpxRead->readLine = malloc(sizeof(char) * DEFAULT_SIZE);
-  if (psGpxRead->readLine == NULL) {
+
+  /* memory allocate */
+  psGpxRead->readData[0] = psGpxRead->readLine =
+      malloc(sizeof(char) * DEFAULT_SIZE);
+  psGpxRead->readData[1] = psGpxRead->readLatitude =
+      malloc(sizeof(char) * DEFAULT_SIZE);
+  psGpxRead->readData[2] = psGpxRead->readLongitude =
+      malloc(sizeof(char) * DEFAULT_SIZE);
+  psGpxRead->readData[3] = psGpxRead->readElevation =
+      malloc(sizeof(char) * DEFAULT_SIZE);
+
+  /* If alloction failed - free all used memory */
+  bool nullFlag = false;
+  unsigned int i;
+  for (i = 0; i < DEFAULT_DATA_SIZE - 1; i++) {
+    bool nullFlag = false;
+    if (psGpxRead->readData[i] == NULL) {
+      nullFlag = true;
+    }
+  }
+  if (nullFlag) {
+    for (i = 0; i < DEFAULT_DATA_SIZE - 1; i++) {
+      free(psGpxRead->readData[i]);
+    }
     free(psGpxRead);
-    return NULL;
   }
 
   psGpxRead->readLinesCounter = 0;
@@ -28,7 +41,11 @@ gpxReadStruct *gpxReadInit(void) {
 
 void gpxReadDeinit(gpxReadStruct *psGpxRead) {
   if (psGpxRead != NULL) {
-    realseGpxReadField(psGpxRead->readLine);
+    unsigned int i;
+    for (i = 0; i < DEFAULT_DATA_SIZE - 1; i++) {
+      free(psGpxRead->readData[i]);
+    }
+    free(psGpxRead);
     psGpxRead->readLinesCounter = 0;
     free(psGpxRead);
   }
