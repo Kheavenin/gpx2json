@@ -51,9 +51,7 @@ int main(int argc, char const *argv[]) {
   if (!valiateFilePointer(outputFile)) {
     fprintf(stderr, "\nCannot create output file.");
   }
-
   /* Start write to file */
-  bool flag = false;
   fprintf(outputFile, "{\n\"Metadata\": {\n");
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
@@ -86,33 +84,43 @@ int main(int argc, char const *argv[]) {
 
     if ((psGpxRead->readLinesCounter) < 52 &&
         (psGpxRead->readLinesCounter) > 20) {
-      /* Find line wich tracking points */
 
+      /* Find line wich tracking points */
       char *trackPoints = getTrackPoint(line, strlen(line));
       if (trackPoints != NULL) {
+        /* Get get latitude, longitude and print coordinates */
         char *tmpLat = getLatitude(trackPoints);
         char *tmpLon = getLongitude(trackPoints);
         fprintf(outputFile, "\n{\n\t\"geometry\": {\n"); // Begin print tracking
         fprintf(outputFile, "\t\"type:\" \"Point\",\n  ");
-        fprintf(outputFile, "\t\"coordinates\": [ %s, %s ]", tmpLat, tmpLon);
-        fprintf(outputFile, "\t\t\n},");
-        flag = true;
-        //        printf("\nTrack point: %s", trackPoints);
-        //        printf("\nExtracted latitude: %s", tmpLat);
-        //        printf("\nExtracted longitude: %s", tmpLon);
+        fprintf(outputFile, "\t\"coordinates\": [ %s, %s", tmpLat, tmpLon);
+
         free(tmpLon);
         free(tmpLat);
       }
       free(trackPoints);
+
+      /* Get elevation and add to coordinates */
+      char *pElevation = getElevation(psGpxRead->readLine);
+      if (pElevation != NULL) {
+        fprintf(outputFile, ", %s ]", pElevation);
+        fprintf(outputFile, "\t\t\n},");
+      }
+      if (pElevation == NULL) {
+        //  fprintf(outputFile, " ]");
+        //  fprintf(outputFile, "\t\t\n},");
+      }
+      free(pElevation);
+
+      /* Get time and print properties print */
       char *pTime = getTime(psGpxRead->readLine, strlen(psGpxRead->readLine));
       if (pTime != NULL) {
-        fprintf(outputFile, "\n\t\"properties:\" {\n");
+        fprintf(outputFile, "\n\t\t\t\"properties:\" {\n");
         fprintf(outputFile, "\t\t\"time\": \"%s\" \n}\n},", pTime);
       }
       free(pTime);
     }
     psGpxRead->readLinesCounter += 1;
-    // printf("Read lines: %lu", (psGpxParameters->readLinesCounter));
   }
 
   fprintf(outputFile, "\n\t}");
