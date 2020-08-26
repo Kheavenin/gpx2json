@@ -57,37 +57,39 @@ int main(int argc, char const *argv[]) {
   fprintf(outputFile, "{\n\"Metadata\": {\n");
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
+    setGpxReadLine(psGpxRead, line);
     if ((psGpxRead->readLinesCounter) < 21) {
-      char *pAuthor = getAuthor(line, strlen(line));
+      char *pAuthor =
+          getAuthor(psGpxRead->readLine, strlen(psGpxRead->readLine));
       if (pAuthor != NULL) {
         //  printf("\nFound: %s", pAuthor);
         fprintf(outputFile, "\t\"Author\": \"%s\",\n", pAuthor);
       }
       free(pAuthor);
 
-      char *pTime = getTime(line, strlen(line));
+      char *pTime = getTime(psGpxRead->readLine, strlen(psGpxRead->readLine));
       if (pTime != NULL) {
         //  printf("\nFound time: %s", pTime);
         fprintf(outputFile, "\t\"StartTime\": \"%s\",\n", pTime);
       }
       free(pTime);
 
-      char *pType = getActivity(line, strlen(line));
+      char *pType =
+          getActivity(psGpxRead->readLine, strlen(psGpxRead->readLine));
       if (pType != NULL) {
         // printf("\nFound activity type: %s", pType);
-        fprintf(outputFile, "\t\"ActivityType\": \"%s\"\n", pType);
+        fprintf(outputFile, "\t\"ActivityType\": \"%s\"\n}", pType);
       }
       free(pType);
     }
 
     if ((psGpxRead->readLinesCounter) == 21) {
-      fprintf(outputFile, "},");                  // End of Metadeta
-      fprintf(outputFile, "\n\"Tracking\": [\n"); // Begin print tracking
+      fprintf(outputFile, "\n\"geometry\": [\n"); // Begin print tracking
     }
 
     if ((psGpxRead->readLinesCounter) < 50) {
       /* Find line wich tracking points */
-      char *pTime = getTime(line, strlen(line));
+
       char *trackPoints = getTrackPoint(line, strlen(line));
       if (trackPoints != NULL) {
         char *tmpLat = getLatitude(trackPoints);
@@ -96,12 +98,10 @@ int main(int argc, char const *argv[]) {
         if (flag) {
           fprintf(outputFile, ",\n");
         }
-
-        fprintf(
-            outputFile,
-            "\t{ \"time\": \"%s\", \"latitude\": \"%s\", \"longitude\": \"%s\" "
-            "}",
-            pTime, tmpLat, tmpLon);
+        // \"time\": \"%s\",
+        fprintf(outputFile,
+                "\t{ [ \"latitude\": \"%s\", \"longitude\": \"%s\"], ", tmpLat,
+                tmpLon);
         flag = true;
         //        printf("\nTrack point: %s", trackPoints);
         //        printf("\nExtracted latitude: %s", tmpLat);
@@ -109,8 +109,14 @@ int main(int argc, char const *argv[]) {
         free(tmpLon);
         free(tmpLat);
       }
-      free(pTime);
       free(trackPoints);
+
+      char *pTime = getTime(psGpxRead->readLine, strlen(psGpxRead->readLine));
+      if (pTime != NULL) {
+        // printf("pTime: %s \n", pTime);
+        fprintf(outputFile, " \"time\": \"%s\"} ", pTime);
+      }
+      free(pTime);
     }
     psGpxRead->readLinesCounter += 1;
     // printf("Read lines: %lu", (psGpxParameters->readLinesCounter));

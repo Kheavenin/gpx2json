@@ -6,9 +6,11 @@
 #define DEFAULT_SIZE 128
 /** Structers definitons */
 typedef struct {
+  char *readTime;
   char *readLine;
   unsigned int readLinesCounter;
 } gpxReadStruct;
 
 gpxReadStruct *gpxReadInit(void);
 void gpxReadDeinit(gpxReadStruct *psGpxRead);
+void setGpxReadLine(gpxReadStruct *psGpxRead, char *s);
