@@ -2,16 +2,16 @@
 "Metadata": {
 	"Author": "Endomondo User",
 	"StartTime": "2020-08-15T09:09:55Z",
-	"ActivityType": "RUNNING"
-},
-"Tracking": [
-	{ "latitude": "51.117707", "longitude": "17.051369" },
-	{ "latitude": "51.117707", "longitude": "17.051369" },
-	{ "latitude": "51.117768", "longitude": "17.051366" },
-	{ "latitude": "51.117796", "longitude": "17.051288" },
-	{ "latitude": "51.117822", "longitude": "17.051213" },
-	{ "latitude": "51.120579", "longitude": "17.051301" },
-	{ "latitude": "51.120619", "longitude": "17.051364" },
-	{ "latitude": "51.120637", "longitude": "17.051392" }	
+ "time": "2020-08-15T09:09:55Z"} 	"ActivityType": "RUNNING"
+}
+"geometry": [
+	{ [ "latitude": "51.117707", "longitude": "17.051369"],  "time": "2020-08-05T18:52:50Z"} ,
+	{ [ "latitude": "51.117707", "longitude": "17.051369"],  "time": "2020-08-05T18:52:53Z"} ,
+	{ [ "latitude": "51.117768", "longitude": "17.051366"],  "time": "2020-08-05T18:52:58Z"} ,
+	{ [ "latitude": "51.117796", "longitude": "17.051288"],  "time": "2020-08-05T18:53:00Z"} ,
+	{ [ "latitude": "51.117822", "longitude": "17.051213"],  "time": "2020-08-05T18:53:02Z"} ,
+	{ [ "latitude": "51.120579", "longitude": "17.051301"],  "time": "2020-08-05T18:54:38Z"} ,
+	{ [ "latitude": "51.120619", "longitude": "17.051364"],  "time": "2020-08-05T18:54:41Z"} ,
+	{ [ "latitude": "51.120637", "longitude": "17.051392"], 	
 ]
 }
