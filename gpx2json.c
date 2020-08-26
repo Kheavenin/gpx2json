@@ -121,6 +121,8 @@ int main(int argc, char const *argv[]) {
 
         /* Printig feature */
         if (oneUseFlag) {
+          fprintf(outputFile, "\n\t\"type\": \"FeatureCollection\",");
+
           fprintf(outputFile, "\n\t\"feature\": [");
           oneUseFlag = false;
         }
