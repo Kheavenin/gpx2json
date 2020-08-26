@@ -24,7 +24,7 @@ int valiateFilePointer(FILE *pointer);
 int main(int argc, char const *argv[]) {
 
   if ((argv == NULL) || (argc != 3)) {
-    fprintf(stderr, "\nInvalid arguments.\n");
+    fprintf(stderr, "\nInvalid program arguments.\n");
     return ERROR_DATA;
   }
 
@@ -56,6 +56,7 @@ int main(int argc, char const *argv[]) {
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
     setGpxReadLine(psGpxRead, line);
+    // printf("\nPointer: %p, content: %s", psGpxRead->readData[0]);
     if ((psGpxRead->readLinesCounter) < 21) {
       char *pAuthor =
           getAuthor(psGpxRead->readLine, strlen(psGpxRead->readLine));
@@ -86,7 +87,8 @@ int main(int argc, char const *argv[]) {
         (psGpxRead->readLinesCounter) > 20) {
 
       /* Find line wich tracking points */
-      char *trackPoints = getTrackPoint(line, strlen(line));
+      char *trackPoints =
+          getTrackPoint(psGpxRead->readLine, strlen(psGpxRead->readLine));
       if (trackPoints != NULL) {
         /* Get get latitude, longitude and print coordinates */
         char *tmpLat = getLatitude(trackPoints);

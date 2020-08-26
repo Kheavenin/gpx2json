@@ -19,10 +19,9 @@ gpxReadStruct *gpxReadInit(void) {
   psGpxRead->readData[3] = psGpxRead->readElevation =
       malloc(sizeof(char) * DEFAULT_SIZE);
 
-  /* If alloction failed - free all used memory */
-  bool nullFlag = false;
   unsigned int i;
-  for (i = 0; i < DEFAULT_DATA_SIZE - 1; i++) {
+  bool nullFlag = false;
+  for (i = 0; i < DEFAULT_DATA_SIZE; i++) {
     bool nullFlag = false;
     if (psGpxRead->readData[i] == NULL) {
       nullFlag = true;
