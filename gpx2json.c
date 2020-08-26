@@ -52,6 +52,8 @@ int main(int argc, char const *argv[]) {
     fprintf(stderr, "\nCannot create output file.");
   }
   /* Start write to file */
+  bool printFlag = false;
+  bool oneUseFlag = true;
   fprintf(outputFile, "{\n\"Metadata\": {\n");
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
@@ -77,13 +79,10 @@ int main(int argc, char const *argv[]) {
       free(pType);
     }
 
-    if ((psGpxRead->readLinesCounter) == 21) {
-    }
-
     if ((psGpxRead->readLinesCounter) < 52 &&
-        (psGpxRead->readLinesCounter) > 20) {
+        (psGpxRead->readLinesCounter) > 21) {
 
-      /* Find line wich tracking points */
+      /* Find line which has tracking points */
       char *trackPoints = getTrackPoint(psGpxRead->readLine);
       if (trackPoints != NULL) {
         /* Get get latitude, longitude and print coordinates */
@@ -91,40 +90,65 @@ int main(int argc, char const *argv[]) {
         char *tmpLon = getLongitude(trackPoints);
         setReadLatitudec(psGpxRead, tmpLat);
         setReadLongitude(psGpxRead, tmpLon);
-
         free(tmpLon);
         free(tmpLat);
       }
       free(trackPoints);
 
-      /* Get elevation and add to coordinates */
+      /* Get elevation  */
       char *pElevation = getElevation(psGpxRead->readLine);
       if (pElevation != NULL) {
         setReadElevation(psGpxRead, pElevation);
       }
       free(pElevation);
-
-      if (psGpxRead->readLatitude != NULL && psGpxRead->readLongitude != NULL) {
-        fprintf(outputFile,
-                "\n\t{\n\t\"geometry\": {"); // Begin print tracking
-        fprintf(outputFile, "\n\t\t\"type:\" \"Point\",");
-        fprintf(outputFile, "\n\t\t\"coordinates\": ");
-        fprintf(outputFile, "%s, %s, %s", getReadLatitude(psGpxRead),
-                getReadLongitude(psGpxRead), getReadElevation(psGpxRead));
-      }
-
-      /* Get time and print properties print */
+      /* Get time */
       char *pTime = getTime(psGpxRead->readLine);
       if (pTime != NULL) {
-        fprintf(outputFile, "\n\t\t\t\"properties:\" {\n");
-        fprintf(outputFile, "\t\t\"time\": \"%s\" \n}\n},", pTime);
+        setReadTime(psGpxRead, pTime);
+        printFlag = true;
       }
       free(pTime);
+
+      if (printFlag) {
+        if (strlen(getReadLatitude(psGpxRead)) < 2)
+          setReadLatitudec(psGpxRead, "null");
+        if (strlen(getReadLongitude(psGpxRead)) < 2)
+          setReadLongitude(psGpxRead, "null");
+        if (strlen(getReadElevation(psGpxRead)) < 2)
+          setReadElevation(psGpxRead, "null");
+        if (strlen(getReadTime(psGpxRead)) < 2)
+          setReadTime(psGpxRead, "null");
+
+        /* Printig feature */
+        if (oneUseFlag) {
+          fprintf(outputFile, "\n\t\"feature\": [");
+          oneUseFlag = false;
+        }
+        /* Printing coordinates */
+        fprintf(outputFile, "\n\t{\n\t\t\"geometry\": {");
+        fprintf(outputFile, "\n\t\t\"type\": \"Point\",");
+        fprintf(outputFile, "\n\t\t\"coordinates\": ");
+        fprintf(outputFile, "[ %s, %s, %s ]", getReadLatitude(psGpxRead),
+                getReadLongitude(psGpxRead), getReadElevation(psGpxRead));
+        fprintf(outputFile, "\n\t\t},");
+        /* printing properties */
+        fprintf(outputFile, "\n\t\t\"properties:\" {\n");
+        fprintf(outputFile, "\t\t\"time\": \"%s\", \n\t\t\"elevation\": %s",
+                getReadTime(psGpxRead), getReadElevation(psGpxRead));
+        fprintf(outputFile, "\n\t\t}"); // End of propertie
+        fprintf(outputFile, "\n\t},");  // end of block
+
+        for (size_t i = 0; i < DEFAULT_DATA_SIZE; i++) {
+          memset(psGpxRead->readData[i], '\0', strlen(psGpxRead->readData[i]));
+        }
+
+        printFlag = false;
+      }
     }
     psGpxRead->readLinesCounter += 1;
   }
-
-  fprintf(outputFile, "\n\t}");
+  fprintf(outputFile, "\n\t]"); // End of feature
+  fprintf(outputFile, "\n\t}"); // End of JSON
   /* Deallocation */
   unsigned int inputCloseStatus = fclose(inputFile);
   unsigned int outputCloseStatus = fclose(outputFile);

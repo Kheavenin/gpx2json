@@ -11,15 +11,15 @@ gpxReadStruct *gpxReadInit(void) {
 
   /* memory allocate */
   psGpxRead->readData[0] = psGpxRead->readLine =
-      malloc(sizeof(char) * DEFAULT_SIZE);
+      calloc(DEFAULT_SIZE, sizeof(char) * DEFAULT_SIZE);
   psGpxRead->readData[1] = psGpxRead->readLatitude =
-      malloc(sizeof(char) * DEFAULT_SIZE);
+      calloc(DEFAULT_SIZE, sizeof(char) * DEFAULT_SIZE);
   psGpxRead->readData[2] = psGpxRead->readLongitude =
-      malloc(sizeof(char) * DEFAULT_SIZE);
+      calloc(DEFAULT_SIZE, sizeof(char) * DEFAULT_SIZE);
   psGpxRead->readData[3] = psGpxRead->readElevation =
-      malloc(sizeof(char) * DEFAULT_SIZE);
+      calloc(DEFAULT_SIZE, sizeof(char) * DEFAULT_SIZE);
   psGpxRead->readData[4] = psGpxRead->readTime =
-      malloc(sizeof(char) * DEFAULT_SIZE);
+      calloc(DEFAULT_SIZE, sizeof(char) * DEFAULT_SIZE);
 
   unsigned int i;
   bool nullFlag = false;
@@ -148,7 +148,6 @@ char *getReadLongitude(gpxReadStruct *psGpxRead) {
 
 char *getReadElevation(gpxReadStruct *psGpxRead) {
   if (psGpxRead != NULL && (psGpxRead->readElevation != NULL)) {
-
     return psGpxRead->readElevation;
   }
   return NULL;
@@ -156,8 +155,7 @@ char *getReadElevation(gpxReadStruct *psGpxRead) {
 
 char *getReadTime(gpxReadStruct *psGpxRead) {
   if (psGpxRead != NULL && (psGpxRead->readTime != NULL)) {
-
     return psGpxRead->readTime;
-    return NULL;
   }
+  return NULL;
 }

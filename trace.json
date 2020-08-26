@@ -1,163 +1,121 @@
 {
-"Metadata": {
-	"Author": "Endomondo User",
-	"StartTime": "2020-08-15T09:09:55Z",
-	"ActivityType": "RUNNING"
-},
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": À, À, À
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117707, 17.051369, À
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117707, 17.051369, À
+	"Metadata": {
+		"Author": "Endomondo User",
+		"StartTime": "2020-08-15T09:09:55Z",
+		"ActivityType": "RUNNING"
+	},
+	"feature": [
+		{
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					51.117707,
+					17.051369,
+					null
+				]
+			},
 			"properties:" {
-		"time": "2020-08-05T18:52:50Z" 
-}
-},
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117707, 17.051369, À
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117707, 17.051369, À
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117707, 17.051369, 170.171
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117707, 17.051369, 170.171
+				"time": "2020-08-05T18:52:50Z",
+				"elevation": null
+			}
+		},
+		{
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					51.117707,
+					17.051369,
+					170.171
+				]
+			},
 			"properties:" {
-		"time": "2020-08-05T18:52:53Z" 
-}
-},
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117707, 17.051369, 170.171
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117768, 17.051366, 170.171
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117768, 17.051366, 169.159
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117768, 17.051366, 169.159
+				"time": "2020-08-05T18:52:53Z",
+				"elevation": 170.171
+			}
+		},
+		{
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					51.117768,
+					17.051366,
+					169.159
+				]
+			},
 			"properties:" {
-		"time": "2020-08-05T18:52:58Z" 
-}
-},
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117768, 17.051366, 169.159
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117796, 17.051288, 169.159
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117796, 17.051288, 168.911
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117796, 17.051288, 168.911
+				"time": "2020-08-05T18:52:58Z",
+				"elevation": 169.159
+			}
+		},
+		{
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					51.117796,
+					17.051288,
+					168.911
+				]
+			},
 			"properties:" {
-		"time": "2020-08-05T18:53:00Z" 
-}
-},
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117796, 17.051288, 168.911
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117822, 17.051213, 168.911
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117822, 17.051213, 168.709
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117822, 17.051213, 168.709
+				"time": "2020-08-05T18:53:00Z",
+				"elevation": 168.911
+			}
+		},
+		{
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					51.117822,
+					17.051213,
+					168.709
+				]
+			},
 			"properties:" {
-		"time": "2020-08-05T18:53:02Z" 
-}
-},
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.117822, 17.051213, 168.709
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120579, 17.051301, 168.709
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120579, 17.051301, 153.435
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120579, 17.051301, 153.435
+				"time": "2020-08-05T18:53:02Z",
+				"elevation": 168.709
+			}
+		},
+		{
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					51.120579,
+					17.051301,
+					153.435
+				]
+			},
 			"properties:" {
-		"time": "2020-08-05T18:54:38Z" 
-}
-},
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120579, 17.051301, 153.435
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120619, 17.051364, 153.435
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120619, 17.051364, 153.59
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120619, 17.051364, 153.59
+				"time": "2020-08-05T18:54:38Z",
+				"elevation": 153.435
+			}
+		},
+		{
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					51.120619,
+					17.051364,
+					153.59
+				]
+			},
 			"properties:" {
-		"time": "2020-08-05T18:54:41Z" 
-}
-},
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120619, 17.051364, 153.59
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120637, 17.051392, 153.59
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120637, 17.051392, 153.708
-	{
-	"geometry": {
-		"type:" "Point",
-		"coordinates": 51.120637, 17.051392, 153.708
+				"time": "2020-08-05T18:54:41Z",
+				"elevation": 153.59
+			}
+		},
+		{
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					51.120637,
+					17.051392,
+					153.708
+				]
+			},
 			"properties:" {
-		"time": "2020-08-05T18:54:42Z" 
+				"time": "2020-08-05T18:54:42Z",
+				"elevation": 153.708
+			}
+		}
+	]
 }
-},
-	}
