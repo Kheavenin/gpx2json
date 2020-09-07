@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,3 +13,5 @@ char *getActivity(char *s);
 char *getTrackPoint(char *s);
 
 char *getElevation(char *s);
+
+bool checkEndOfFile(char *s, const char *end);
