@@ -22,6 +22,7 @@ const char *end_elevation = "</ele>";
 const char *end_name = "</name>";
 const char *end_time = "</time>";
 const char *end_type = "</type>";
+// const char *end_tracking = "</trk>";
 
 char *getString(const char *s, const char *start, const char *end) {
   if (s != NULL && start != NULL && end != NULL) {
@@ -177,4 +178,16 @@ char *getElevation(char *s) {
     return getString(s, elevation, end_elevation);
   }
   return NULL;
+}
+
+bool checkEndOfFile(char *s, const char *end) {
+  if (s != NULL || end != NULL) {
+    return false;
+  }
+  if (strstr(s, end) != NULL) {
+    // printf("\nTHis is end.");
+    return true;
+  } else {
+    return false;
+  }
 }

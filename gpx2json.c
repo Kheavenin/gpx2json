@@ -16,7 +16,7 @@
 #define ERROR_NULL_POINTER 0 // code for null pointer detection
 
 char line[128];
-
+const char *end_tracking = "</trk>";
 /** Function prototypes */
 int valiateMemoryPointer(void *pointer);
 int valiateFilePointer(FILE *pointer);
@@ -53,8 +53,10 @@ int main(int argc, char const *argv[]) {
   }
   /* Start write to file */
   bool printFlag = false;
-  bool oneUseFlag = true;
+  bool featureFlag = true;
+  bool eofFlag = false, eofTmp = false;
   fprintf(outputFile, "{\n\"metadata\": {\n");
+
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
     setGpxReadLine(psGpxRead, line);
@@ -79,8 +81,8 @@ int main(int argc, char const *argv[]) {
       free(pType);
     }
 
-    if ((psGpxRead->readLinesCounter) < 52 &&
-        (psGpxRead->readLinesCounter) > 21) {
+    if (/*(psGpxRead->readLinesCounter) < 52 &&*/ (
+            psGpxRead->readLinesCounter) > 21) {
 
       /* Find line which has tracking points */
       char *trackPoints = getTrackPoint(psGpxRead->readLine);
@@ -120,12 +122,19 @@ int main(int argc, char const *argv[]) {
           setReadTime(psGpxRead, "null");
 
         /* Printig feature */
-        if (oneUseFlag) {
+        if (featureFlag) {
           fprintf(outputFile, "\n\t\"type\": \"FeatureCollection\",");
 
           fprintf(outputFile, "\n\t\"feature\": [");
-          oneUseFlag = false;
+          featureFlag = false;
         }
+        eofFlag = checkEndOfFile(psGpxRead->readLine, end_tracking);
+        /*Check end of file */
+        if (!eofFlag && eofTmp) {
+          fprintf(outputFile, ","); // print coma in the end of geoblock
+        }
+        eofTmp = true;
+
         /* Printing coordinates */
         fprintf(outputFile, "\n\t{\n\t\t\"geometry\": {");
         fprintf(outputFile, "\n\t\t\"type\": \"Point\",");
@@ -133,12 +142,12 @@ int main(int argc, char const *argv[]) {
         fprintf(outputFile, "[ %s, %s, %s ]", getReadLatitude(psGpxRead),
                 getReadLongitude(psGpxRead), getReadElevation(psGpxRead));
         fprintf(outputFile, "\n\t\t},");
-        /* printing properties */
+        /* Printing properties */
         fprintf(outputFile, "\n\t\t\"properties\": {\n");
         fprintf(outputFile, "\t\t\"time\": \"%s\", \n\t\t\"elevation\": %s",
                 getReadTime(psGpxRead), getReadElevation(psGpxRead));
         fprintf(outputFile, "\n\t\t}"); // End of propertie
-        fprintf(outputFile, "\n\t},");  // end of block
+        fprintf(outputFile, "\n\t}");   // end of block
 
         for (size_t i = 0; i < DEFAULT_DATA_SIZE; i++) {
           memset(psGpxRead->readData[i], '\0', strlen(psGpxRead->readData[i]));
