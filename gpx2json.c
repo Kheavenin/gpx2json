@@ -54,26 +54,26 @@ int main(int argc, char const *argv[]) {
   /* Start write to file */
   bool printFlag = false;
   bool oneUseFlag = true;
-  fprintf(outputFile, "{\n\"Metadata\": {\n");
+  fprintf(outputFile, "{\n\"metadata\": {\n");
   /** Read file */
   while (fscanf(inputFile, "%127[^\n]\n", line) == 1) {
     setGpxReadLine(psGpxRead, line);
     if ((psGpxRead->readLinesCounter) < 21) {
       char *pAuthor = getAuthor(psGpxRead->readLine);
       if (pAuthor != NULL) {
-        fprintf(outputFile, "\t\"Author\": \"%s\",\n", pAuthor);
+        fprintf(outputFile, "\t\"author\": \"%s\",\n", pAuthor);
       }
       free(pAuthor);
 
       char *pTime = getTime(psGpxRead->readLine);
       if (pTime != NULL) {
-        fprintf(outputFile, "\t\"StartTime\": \"%s\",\n", pTime);
+        fprintf(outputFile, "\t\"time\": \"%s\",\n", pTime);
       }
       free(pTime);
 
       char *pType = getActivity(psGpxRead->readLine);
       if (pType != NULL) {
-        fprintf(outputFile, "\t\"ActivityType\": \"%s\"\n", pType);
+        fprintf(outputFile, "\t\"type\": \"%s\"\n", pType);
         fprintf(outputFile, "},"); // End of Metadeta
       }
       free(pType);
@@ -134,7 +134,7 @@ int main(int argc, char const *argv[]) {
                 getReadLongitude(psGpxRead), getReadElevation(psGpxRead));
         fprintf(outputFile, "\n\t\t},");
         /* printing properties */
-        fprintf(outputFile, "\n\t\t\"properties:\" {\n");
+        fprintf(outputFile, "\n\t\t\"properties\": {\n");
         fprintf(outputFile, "\t\t\"time\": \"%s\", \n\t\t\"elevation\": %s",
                 getReadTime(psGpxRead), getReadElevation(psGpxRead));
         fprintf(outputFile, "\n\t\t}"); // End of propertie
